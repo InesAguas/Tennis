@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--   DARK THEME: OFF -->
+    <color name="green">#317A52</color>
+    <color name="background">#D4ECDF</color>
+    <color name="dark">#292929</color>
+
+    <!--   DARK THEME: ON -->
+    <color name="green_dark">#317A52</color>
+    <color name="background_dark">#041C0F</color>
+
+</resources>

@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Tennis" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!--   color for the app bar and other primary UI elements -->
+        <item name="colorPrimary">#0F4728</item>
+        <!--   color for the words -->
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:windowBackground">@color/background_dark</item>
+    </style>
+    <style name="CustomMaterialDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Background Color-->
+        <item name="android:background">@color/dark</item>
+        <!-- Text Color for buttons -->
+        <item name="colorPrimary">@color/white</item>
+    </style>
+</resources>

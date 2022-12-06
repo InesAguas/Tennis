@@ -9,7 +9,11 @@ import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ViewGamesActivity extends AppCompatActivity {
 
@@ -27,28 +31,36 @@ public class ViewGamesActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Games");
 
+        gameList = new ArrayList<Game>();
         gAdapter = new GameDBAdapter(this);
-        fillList();
+        gAdapter.open();
+        cursor = gAdapter.getAllGames();
+
+        if(cursor != null) {
+            //preencher lista de jogos
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+
+                int score1[] = {cursor.getInt(4), cursor.getInt(5), cursor.getInt(6)};
+                int score2[] = {cursor.getInt(7), cursor.getInt(8), cursor.getInt(9)};
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date();
+                try {
+                    date = format.parse(cursor.getString(10));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                gameList.add(new Game(cursor.getString(1), cursor.getString(2), cursor.getString(3), score1, score2, date));
+                cursor.moveToNext();
+            }
+        }
+        gAdapter.close();
 
         ListAdapter adapter = new GameAdapter(this, gameList);
         games = findViewById(R.id.listGames);
         games.setAdapter(adapter);
     }
 
-
-    private void fillList() {
-        gAdapter.open();
-        cursor = gAdapter.getAllGames();
-        if(cursor != null) {
-            //preencher lista de jogos
-            cursor.moveToFirst();
-            while(!cursor.isAfterLast()){
-                //gameList.add(new Game(cursor.getString(2), cursor.getString(3), ));
-                cursor.moveToNext();
-            }
-        }
-        gAdapter.close();
-    }
 
     //function to have a return button
     public boolean onOptionsItemSelected(MenuItem item) {

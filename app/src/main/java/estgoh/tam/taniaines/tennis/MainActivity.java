@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText player1, player2, tournament;
 
     public static ArrayList<Game> games = new ArrayList<Game>();
+    private SharedPreferences sharedPreferences;
+    private TextView welcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +42,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player1 = findViewById(R.id.player1Name);
         player2 = findViewById(R.id.player2Name);
         tournament = findViewById(R.id.tournamentName);
+        welcome = findViewById(R.id.welcome);
 
         start.setOnClickListener(this);
         viewGames.setOnClickListener(this);
+
+        sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
+
+        if (sharedPreferences != null) {
+            String str = sharedPreferences.getString("username", "");
+            if (str != null && !str.isEmpty()) {
+                welcome.setText("\uD83D\uDC4B Welcome, " + str + "!");
+            }
+
+        }
+
     }
 
     @Override
@@ -80,10 +96,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //tem de ir parar a activity de ver as informações
                 return true;
             case R.id.preferences:
-                //vai a activity das prefencias e etc
+                Intent iPreferences = new Intent(this, PreferencesActivity.class);
+                startActivity(iPreferences);
                 return true;
             default:
                 return false;
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
+
+        if (sharedPreferences != null) {
+            String str = sharedPreferences.getString("username", "");
+            if (str != null && !str.isEmpty()) {
+                welcome.setText("\uD83D\uDC4B Welcome, " + str + "!");
+            }
+
         }
     }
 }

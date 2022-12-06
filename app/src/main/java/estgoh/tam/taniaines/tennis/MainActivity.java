@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player1 = findViewById(R.id.player1Name);
         player2 = findViewById(R.id.player2Name);
         tournament = findViewById(R.id.tournamentName);
+
         start.setOnClickListener(this);
         viewGames.setOnClickListener(this);
     }

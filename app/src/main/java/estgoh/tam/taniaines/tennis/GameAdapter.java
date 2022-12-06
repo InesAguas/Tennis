@@ -21,10 +21,9 @@ public class GameAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Game> adaptGames;
 
-    public GameAdapter(Context context) {
+    public GameAdapter(Context context, ArrayList<Game> games) {
         this.context = context;
-        this.adaptGames = MainActivity.games;
-        Collections.sort(adaptGames);
+        this.adaptGames = games;
     }
 
     @Override

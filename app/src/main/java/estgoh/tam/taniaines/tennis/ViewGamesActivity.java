@@ -28,6 +28,15 @@ public class ViewGamesActivity extends AppCompatActivity {
         actionBar.setTitle("Games");
 
         gAdapter = new GameDBAdapter(this);
+        fillList();
+
+        ListAdapter adapter = new GameAdapter(this, gameList);
+        games = findViewById(R.id.listGames);
+        games.setAdapter(adapter);
+    }
+
+
+    private void fillList() {
         gAdapter.open();
         cursor = gAdapter.getAllGames();
         if(cursor != null) {
@@ -39,11 +48,7 @@ public class ViewGamesActivity extends AppCompatActivity {
             }
         }
         gAdapter.close();
-        ListAdapter adapter = new GameAdapter(this);
-        games = findViewById(R.id.listGames);
-        games.setAdapter(adapter);
     }
-
 
     //function to have a return button
     public boolean onOptionsItemSelected(MenuItem item) {

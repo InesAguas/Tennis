@@ -14,13 +14,13 @@ public class Game implements Comparable<Game> {
     private int winner;
 
     //game constructor
-    Game(String tournament, String player1, String player2, int[] score1, int[] score2) {
-        this.date = new Date();
+    Game(String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
         this.tournament = tournament;
         this.player1 = player1;
         this.player2 = player2;
         this.score1 = score1;
         this.score2 = score2;
+        this.date = date;
         this.winner = setWinner();
     }
 

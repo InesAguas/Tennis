@@ -1,25 +1,20 @@
 package estgoh.tam.taniaines.tennis;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Date;
 
 public class GameActivity extends AppCompatActivity{
 
@@ -29,6 +24,8 @@ public class GameActivity extends AppCompatActivity{
     private TextView setNum;
     private int[] score1 = {0, 0, 0};
     private int[] score2 = {0, 0, 0};
+
+    GameDBAdapter gAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +38,9 @@ public class GameActivity extends AppCompatActivity{
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Live Game");
+
+        gAdapter = new GameDBAdapter(this);
+
 
         tournament = findViewById(R.id.tourName);
         player1 = findViewById(R.id.p1Name);
@@ -188,7 +188,11 @@ public class GameActivity extends AppCompatActivity{
             sc1[i] = score1[i];
             sc2[i] = score2[i];
         }
-        Game game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2);
+        gAdapter.open();
+        gAdapter.insertGame(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2);
+        gAdapter.close();
+
+        Game game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2, new Date());
         MainActivity.games.add(game);
         AlertDialog.Builder alert = new AlertDialog.Builder(GameActivity.this, R.style.CustomMaterialDialog);
         alert.setTitle("Game saved");

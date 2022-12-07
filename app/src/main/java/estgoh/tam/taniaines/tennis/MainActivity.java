@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button start, viewGames;
     private EditText player1, player2, tournament;
-
-    public static ArrayList<Game> games = new ArrayList<Game>();
     private SharedPreferences sharedPreferences;
     private TextView welcome;
 

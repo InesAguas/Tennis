@@ -188,12 +188,12 @@ public class GameActivity extends AppCompatActivity{
             sc1[i] = score1[i];
             sc2[i] = score2[i];
         }
+
         gAdapter.open();
         gAdapter.insertGame(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2);
         gAdapter.close();
 
         Game game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2, new Date());
-        MainActivity.games.add(game);
         AlertDialog.Builder alert = new AlertDialog.Builder(GameActivity.this, R.style.CustomMaterialDialog);
         alert.setTitle("Game saved");
         if(game.getWinner() == 1) {

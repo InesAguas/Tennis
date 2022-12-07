@@ -37,7 +37,6 @@ public class ViewGamesActivity extends AppCompatActivity {
         cursor = gAdapter.getAllGames();
 
         if(cursor != null) {
-            //preencher lista de jogos
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
                 int score1[] = {cursor.getInt(4), cursor.getInt(5), cursor.getInt(6)};

@@ -40,7 +40,6 @@ public class ViewGamesActivity extends AppCompatActivity {
             //preencher lista de jogos
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
-
                 int score1[] = {cursor.getInt(4), cursor.getInt(5), cursor.getInt(6)};
                 int score2[] = {cursor.getInt(7), cursor.getInt(8), cursor.getInt(9)};
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -50,7 +49,7 @@ public class ViewGamesActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                gameList.add(new Game(cursor.getString(1), cursor.getString(2), cursor.getString(3), score1, score2, date));
+                gameList.add(new Game(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), score1, score2, date));
                 cursor.moveToNext();
             }
         }

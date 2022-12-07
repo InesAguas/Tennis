@@ -11,7 +11,7 @@ public class Game implements Comparable<Game> {
     private int[] score1;
     private int[] score2;
     private Date date;
-    private int winner;
+    private int winner, id;
 
     //game constructor
     Game(String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
@@ -22,6 +22,11 @@ public class Game implements Comparable<Game> {
         this.score2 = score2;
         this.date = date;
         this.winner = setWinner();
+    }
+
+    Game(int id, String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
+        this(tournament, player1, player2, score1, score2, date);
+        this.id = id;
     }
 
     //function to determine the winner of the game
@@ -86,6 +91,9 @@ public class Game implements Comparable<Game> {
         return winner;
     }
 
+    public int getId() {
+        return id;
+    }
     //function to compare games by date
     @Override
     public int compareTo(Game game) {

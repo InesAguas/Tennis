@@ -141,7 +141,12 @@ public class GameAdapter extends BaseAdapter {
         deleteGame.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                MainActivity.games.remove(position);
+                GameDBAdapter gAdapter = new GameDBAdapter(context);
+                gAdapter.open();
+                if(gAdapter.deleteGame(adaptGames.get(position).getId()) == 1) {
+                    adaptGames.remove(position);
+                }
+                gAdapter.close();
                 notifyDataSetChanged();
             }
         });

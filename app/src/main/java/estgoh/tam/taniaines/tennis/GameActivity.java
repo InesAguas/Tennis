@@ -312,6 +312,9 @@ public class GameActivity extends AppCompatActivity{
 
 
     public void onSaveInstanceState(Bundle outState){
+        outState.putCharSequence("tournament", tournament.getText());
+        outState.putCharSequence("player1", player1.getText());
+        outState.putCharSequence("player2", player2.getText());
         outState.putIntArray("score1", score1);
         outState.putIntArray("score2", score2);
         outState.putCharSequence("pt_player1", pt_player1.getText());
@@ -324,6 +327,13 @@ public class GameActivity extends AppCompatActivity{
     //falta guardar os dados que sao alterados quando se edita os nomes e etc..
     public void onRestoreInstanceState(Bundle outState){
         super.onRestoreInstanceState(outState);
+
+        tournament.setText(outState.getCharSequence("tournament"));
+        player1.setText(outState.getCharSequence("player1"));
+        name_player1.setText(outState.getCharSequence("player1"));
+        player2.setText(outState.getCharSequence("player2"));
+        name_player2.setText(outState.getCharSequence("player2"));
+
         score1 = outState.getIntArray("score1");
         score2 = outState.getIntArray("score2");
 

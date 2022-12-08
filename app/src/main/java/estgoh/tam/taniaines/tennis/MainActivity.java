@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.about:
-                //tem de ir parar a activity de ver as informações
+                Intent iAbout = new Intent(this, AboutActivity.class);
+                startActivity(iAbout);
                 return true;
             case R.id.preferences:
                 Intent iPreferences = new Intent(this, PreferencesActivity.class);

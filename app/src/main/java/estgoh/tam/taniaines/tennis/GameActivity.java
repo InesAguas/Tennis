@@ -88,7 +88,7 @@ public class GameActivity extends AppCompatActivity{
         btn_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteDialog();
+                endGame();
             }
         });
 
@@ -159,7 +159,6 @@ public class GameActivity extends AppCompatActivity{
                     setNum.setText("Set " + num_set);
                 } else {
                     saveGame();
-                    resetScores();
                 }
             }
         } else {
@@ -174,7 +173,6 @@ public class GameActivity extends AppCompatActivity{
                     setNum.setText("Set " + num_set);
                 } else {
                     saveGame();
-                    resetScores();
                 }
             }
         }
@@ -201,27 +199,19 @@ public class GameActivity extends AppCompatActivity{
         } else {
             alert.setMessage("Congratulations, " + game.getPlayer2() + " you won the game. The game was automatically saved.");
         }
-        alert.setPositiveButton("OK", null);
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                finish();
+            }
+        });
         alert.show();
-    }
-
-    //function to reset all scores
-    private void resetScores() {
-        for(int i = 0; i < 3; i++) {
-            score1[i] = 0;
-            score2[i] = 0;
-        }
-
-        num_set = 1;
-        set1_p1.setText(score1[0] + "");
-        set2_p1.setText(score1[1] + "");
-        set3_p1.setText(score1[2] + "");
-        set1_p2.setText(score2[0] + "");
-        set2_p2.setText(score2[1] + "");
-        set3_p2.setText(score2[2] + "");
-        setNum.setText("Set " + num_set);
-        pt_player1.setText("0");
-        pt_player2.setText("0");
     }
 
     //function to show a dialogue message congratulating the winner of the set
@@ -260,18 +250,18 @@ public class GameActivity extends AppCompatActivity{
 
     //function to show a dialogue when a user presses the button to end the game
     //if the player chooses to delete, restarts scores
-    private void deleteDialog() {
-        AlertDialog.Builder alertDelete = new AlertDialog.Builder(this, R.style.CustomMaterialDialog);
-        alertDelete.setMessage("Deleting will restart all score results for the game and no data will be saved.");
-        alertDelete.setTitle("Delete?");
-        alertDelete.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    private void endGame() {
+        AlertDialog.Builder alertEnd = new AlertDialog.Builder(this, R.style.CustomMaterialDialog);
+        alertEnd.setMessage("Ending the game will reset everything and go back to main page. Proceed?");
+        alertEnd.setTitle("End Game");
+        alertEnd.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                resetScores();
+                finish();
             }
         });
-        alertDelete.setNegativeButton("Cancel", null);
-        alertDelete.show();
+        alertEnd.setNegativeButton("Cancel", null);
+        alertEnd.show();
     }
 
 

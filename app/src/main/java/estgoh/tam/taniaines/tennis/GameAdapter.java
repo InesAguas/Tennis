@@ -117,8 +117,10 @@ public class GameAdapter extends BaseAdapter {
                 set3P1.setTextColor(Color.rgb(60,60,60));
             }
         } else {
+            set3P2.setText("-");
             set3P2.setTypeface(null, Typeface.NORMAL);
             set3P2.setTextColor(Color.rgb(60,60,60));
+            set3P1.setText("-");
             set3P1.setTypeface(null, Typeface.NORMAL);
             set3P1.setTextColor(Color.rgb(60,60,60));
         }

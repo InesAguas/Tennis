@@ -199,6 +199,10 @@ public class GameActivity extends AppCompatActivity{
                 }
             }
         }
+
+        if(score1[num_set-1] == 6 && score2[num_set-1] == 6) {
+            setNum.setText("Set " + num_set + "\nTie Break");
+        }
     }
 
     //function to save the game

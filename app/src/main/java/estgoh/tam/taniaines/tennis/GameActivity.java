@@ -88,7 +88,7 @@ public class GameActivity extends AppCompatActivity{
         btn_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteDialog();
+                endGame();
             }
         });
 
@@ -102,43 +102,65 @@ public class GameActivity extends AppCompatActivity{
 
     //function to change score numbers when player 1 scores
     private void player1Scores() {
-        if (pt_player1.getText().equals("0")){
-            pt_player1.setText("15");
-        }else if (pt_player1.getText().equals("15")){
-            pt_player1.setText("30");
-        }else if (pt_player1.getText().equals("30")){
-            pt_player1.setText("40");
-        }else if (pt_player1.getText().equals("40")) {
-            if (pt_player2.getText().equals("40")) {
-                pt_player1.setText("AD");
-            } else if (pt_player2.getText().equals("AD")) {
-                pt_player2.setText("40");
-            }else{
+        if(score1[num_set-1] == 6 && score2[num_set-1] == 6) {
+            int i = Integer.parseInt(pt_player1.getText().toString());
+            i++;
+            pt_player1.setText(i + "");
+            int j = Integer.parseInt(pt_player2.getText().toString());
+
+            if(i >= 7 && (j <= i-2)) {
                 changeScore("p1");
             }
-        }else if (pt_player1.getText().equals("AD") && pt_player2.getText().equals("40")) {
-            changeScore("p1");
+        } else {
+            if (pt_player1.getText().equals("0")){
+                pt_player1.setText("15");
+            }else if (pt_player1.getText().equals("15")){
+                pt_player1.setText("30");
+            }else if (pt_player1.getText().equals("30")){
+                pt_player1.setText("40");
+            }else if (pt_player1.getText().equals("40")) {
+                if (pt_player2.getText().equals("40")) {
+                    pt_player1.setText("AD");
+                } else if (pt_player2.getText().equals("AD")) {
+                    pt_player2.setText("40");
+                }else{
+                    changeScore("p1");
+                }
+            }else if (pt_player1.getText().equals("AD") && pt_player2.getText().equals("40")) {
+                changeScore("p1");
+            }
         }
     }
 
     //function to change score numbers when player 2 scores
     private void player2Scores() {
-        if (pt_player2.getText().equals("0")){
-            pt_player2.setText("15");
-        }else if (pt_player2.getText().equals("15")){
-            pt_player2.setText("30");
-        }else if (pt_player2.getText().equals("30")){
-            pt_player2.setText("40");
-        }else if (pt_player2.getText().equals("40")) {
-            if (pt_player1.getText().equals("40")) {
-                pt_player2.setText("AD");
-            } else if (pt_player1.getText().equals("AD")) {
-                pt_player1.setText("40");
-            }else{
+        if(score1[num_set-1] == 6 && score2[num_set-1] == 6) {
+            int i = Integer.parseInt(pt_player2.getText().toString());
+            i++;
+            pt_player2.setText(i + "");
+
+            int j = Integer.parseInt(pt_player1.getText().toString());
+            if(i >= 7 && (j <= i-2)) {
                 changeScore("p2");
             }
-        }else if (pt_player2.getText().equals("AD") && pt_player1.getText().equals("40")) {
-            changeScore("p2");
+        } else {
+            if (pt_player2.getText().equals("0")){
+                pt_player2.setText("15");
+            }else if (pt_player2.getText().equals("15")){
+                pt_player2.setText("30");
+            }else if (pt_player2.getText().equals("30")){
+                pt_player2.setText("40");
+            }else if (pt_player2.getText().equals("40")) {
+                if (pt_player1.getText().equals("40")) {
+                    pt_player2.setText("AD");
+                } else if (pt_player1.getText().equals("AD")) {
+                    pt_player1.setText("40");
+                }else{
+                    changeScore("p2");
+                }
+            }else if (pt_player2.getText().equals("AD") && pt_player1.getText().equals("40")) {
+                changeScore("p2");
+            }
         }
     }
 
@@ -152,14 +174,14 @@ public class GameActivity extends AppCompatActivity{
             set1_p1.setText(score1[0] + "");
             set2_p1.setText(score1[1] + "");
             set3_p1.setText(score1[2] + "");
-            if(score1[num_set-1] >= 6 && (score2[num_set-1] <= score1[num_set-1]-2)) {
+
+            if((score1[num_set-1] == 6 && score2[num_set-1] <= 4) || (score1[num_set-1] == 7)) {
                 congratsMessage_set(player1.getText());
                 if(!winnerExists()) {
                     num_set++;
                     setNum.setText("Set " + num_set);
                 } else {
                     saveGame();
-                    resetScores();
                 }
             }
         } else {
@@ -167,14 +189,13 @@ public class GameActivity extends AppCompatActivity{
             set1_p2.setText(score2[0] + "");
             set2_p2.setText(score2[1] + "");
             set3_p2.setText(score2[2] + "");
-            if(score2[num_set-1] >= 6 && (score1[num_set-1] <= score2[num_set-1]-2)) {
+            if((score2[num_set-1] == 6 && score1[num_set-1] <= 4) || (score2[num_set-1] == 7)) {
                 congratsMessage_set(player2.getText());
                 if(!winnerExists()) {
                     num_set++;
                     setNum.setText("Set " + num_set);
                 } else {
                     saveGame();
-                    resetScores();
                 }
             }
         }
@@ -201,27 +222,19 @@ public class GameActivity extends AppCompatActivity{
         } else {
             alert.setMessage("Congratulations, " + game.getPlayer2() + " you won the game. The game was automatically saved.");
         }
-        alert.setPositiveButton("OK", null);
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                finish();
+            }
+        });
         alert.show();
-    }
-
-    //function to reset all scores
-    private void resetScores() {
-        for(int i = 0; i < 3; i++) {
-            score1[i] = 0;
-            score2[i] = 0;
-        }
-
-        num_set = 1;
-        set1_p1.setText(score1[0] + "");
-        set2_p1.setText(score1[1] + "");
-        set3_p1.setText(score1[2] + "");
-        set1_p2.setText(score2[0] + "");
-        set2_p2.setText(score2[1] + "");
-        set3_p2.setText(score2[2] + "");
-        setNum.setText("Set " + num_set);
-        pt_player1.setText("0");
-        pt_player2.setText("0");
     }
 
     //function to show a dialogue message congratulating the winner of the set
@@ -260,18 +273,18 @@ public class GameActivity extends AppCompatActivity{
 
     //function to show a dialogue when a user presses the button to end the game
     //if the player chooses to delete, restarts scores
-    private void deleteDialog() {
-        AlertDialog.Builder alertDelete = new AlertDialog.Builder(this, R.style.CustomMaterialDialog);
-        alertDelete.setMessage("Deleting will restart all score results for the game and no data will be saved.");
-        alertDelete.setTitle("Delete?");
-        alertDelete.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    private void endGame() {
+        AlertDialog.Builder alertEnd = new AlertDialog.Builder(this, R.style.CustomMaterialDialog);
+        alertEnd.setMessage("Ending the game will reset everything and go back to main page. Proceed?");
+        alertEnd.setTitle("End Game");
+        alertEnd.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                resetScores();
+                finish();
             }
         });
-        alertDelete.setNegativeButton("Cancel", null);
-        alertDelete.show();
+        alertEnd.setNegativeButton("Cancel", null);
+        alertEnd.show();
     }
 
 

@@ -102,43 +102,65 @@ public class GameActivity extends AppCompatActivity{
 
     //function to change score numbers when player 1 scores
     private void player1Scores() {
-        if (pt_player1.getText().equals("0")){
-            pt_player1.setText("15");
-        }else if (pt_player1.getText().equals("15")){
-            pt_player1.setText("30");
-        }else if (pt_player1.getText().equals("30")){
-            pt_player1.setText("40");
-        }else if (pt_player1.getText().equals("40")) {
-            if (pt_player2.getText().equals("40")) {
-                pt_player1.setText("AD");
-            } else if (pt_player2.getText().equals("AD")) {
-                pt_player2.setText("40");
-            }else{
+        if(score1[num_set-1] == 6 && score2[num_set-1] == 6) {
+            int i = Integer.parseInt(pt_player1.getText().toString());
+            i++;
+            pt_player1.setText(i + "");
+            int j = Integer.parseInt(pt_player2.getText().toString());
+
+            if(i >= 7 && (j <= i-2)) {
                 changeScore("p1");
             }
-        }else if (pt_player1.getText().equals("AD") && pt_player2.getText().equals("40")) {
-            changeScore("p1");
+        } else {
+            if (pt_player1.getText().equals("0")){
+                pt_player1.setText("15");
+            }else if (pt_player1.getText().equals("15")){
+                pt_player1.setText("30");
+            }else if (pt_player1.getText().equals("30")){
+                pt_player1.setText("40");
+            }else if (pt_player1.getText().equals("40")) {
+                if (pt_player2.getText().equals("40")) {
+                    pt_player1.setText("AD");
+                } else if (pt_player2.getText().equals("AD")) {
+                    pt_player2.setText("40");
+                }else{
+                    changeScore("p1");
+                }
+            }else if (pt_player1.getText().equals("AD") && pt_player2.getText().equals("40")) {
+                changeScore("p1");
+            }
         }
     }
 
     //function to change score numbers when player 2 scores
     private void player2Scores() {
-        if (pt_player2.getText().equals("0")){
-            pt_player2.setText("15");
-        }else if (pt_player2.getText().equals("15")){
-            pt_player2.setText("30");
-        }else if (pt_player2.getText().equals("30")){
-            pt_player2.setText("40");
-        }else if (pt_player2.getText().equals("40")) {
-            if (pt_player1.getText().equals("40")) {
-                pt_player2.setText("AD");
-            } else if (pt_player1.getText().equals("AD")) {
-                pt_player1.setText("40");
-            }else{
+        if(score1[num_set-1] == 6 && score2[num_set-1] == 6) {
+            int i = Integer.parseInt(pt_player2.getText().toString());
+            i++;
+            pt_player2.setText(i + "");
+
+            int j = Integer.parseInt(pt_player1.getText().toString());
+            if(i >= 7 && (j <= i-2)) {
                 changeScore("p2");
             }
-        }else if (pt_player2.getText().equals("AD") && pt_player1.getText().equals("40")) {
-            changeScore("p2");
+        } else {
+            if (pt_player2.getText().equals("0")){
+                pt_player2.setText("15");
+            }else if (pt_player2.getText().equals("15")){
+                pt_player2.setText("30");
+            }else if (pt_player2.getText().equals("30")){
+                pt_player2.setText("40");
+            }else if (pt_player2.getText().equals("40")) {
+                if (pt_player1.getText().equals("40")) {
+                    pt_player2.setText("AD");
+                } else if (pt_player1.getText().equals("AD")) {
+                    pt_player1.setText("40");
+                }else{
+                    changeScore("p2");
+                }
+            }else if (pt_player2.getText().equals("AD") && pt_player1.getText().equals("40")) {
+                changeScore("p2");
+            }
         }
     }
 
@@ -152,7 +174,8 @@ public class GameActivity extends AppCompatActivity{
             set1_p1.setText(score1[0] + "");
             set2_p1.setText(score1[1] + "");
             set3_p1.setText(score1[2] + "");
-            if(score1[num_set-1] >= 6 && (score2[num_set-1] <= score1[num_set-1]-2)) {
+
+            if((score1[num_set-1] == 6 && score2[num_set-1] <= 4) || (score1[num_set-1] == 7)) {
                 congratsMessage_set(player1.getText());
                 if(!winnerExists()) {
                     num_set++;
@@ -166,7 +189,7 @@ public class GameActivity extends AppCompatActivity{
             set1_p2.setText(score2[0] + "");
             set2_p2.setText(score2[1] + "");
             set3_p2.setText(score2[2] + "");
-            if(score2[num_set-1] >= 6 && (score1[num_set-1] <= score2[num_set-1]-2)) {
+            if((score2[num_set-1] == 6 && score1[num_set-1] <= 4) || (score2[num_set-1] == 7)) {
                 congratsMessage_set(player2.getText());
                 if(!winnerExists()) {
                     num_set++;

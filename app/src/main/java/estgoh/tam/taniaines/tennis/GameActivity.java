@@ -276,7 +276,7 @@ public class GameActivity extends AppCompatActivity{
     }
 
     //function to show a dialogue when a user presses the button to end the game
-    //if the player chooses to delete, restarts scores
+    //if the player chooses to end, goes back to main activity
     private void endGame() {
         AlertDialog.Builder alertEnd = new AlertDialog.Builder(this, R.style.CustomMaterialDialog);
         alertEnd.setMessage("Ending the game will reset everything and go back to main page. Proceed?");
@@ -328,6 +328,7 @@ public class GameActivity extends AppCompatActivity{
     }
 
 
+    //function to save application state
     public void onSaveInstanceState(Bundle outState){
         outState.putCharSequence("tournament", tournament.getText());
         outState.putCharSequence("player1", player1.getText());
@@ -340,8 +341,7 @@ public class GameActivity extends AppCompatActivity{
         super.onSaveInstanceState(outState);
     }
 
-    //ja guarda todos os resultados ao trocar a orientação do ecra
-    //falta guardar os dados que sao alterados quando se edita os nomes e etc..
+    //function to restore application state
     public void onRestoreInstanceState(Bundle outState){
         super.onRestoreInstanceState(outState);
 

@@ -34,9 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText player1, player2, tournament;
     private SharedPreferences sharedPreferences;
     private TextView welcome;
+    ClientDAO api;
 
     public void showToast(String msg){
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -44,25 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://api-android-inesaguas.vercel.app")
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create());
-
-        Retrofit retrofit = builder.build();
-        APIClient client = retrofit.create(APIClient.class);
-        Call<Void> call = client.testing();
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                showToast("Response code: " + String.valueOf(response.code()));
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
-            }
-        });
+        api = new RESTClientDAO();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Tennis Scores");
@@ -79,13 +62,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
 
-        if (sharedPreferences != null) {
-            String str = sharedPreferences.getString("username", "");
-            if (str != null && !str.isEmpty()) {
-                welcome.setText("\uD83D\uDC4B Welcome, " + str + "!");
+        String user = sharedPreferences.getString("username", "");
+        String pass = sharedPreferences.getString("password", "");
+        if (user != null && !user.isEmpty()) {
+            welcome.setText("\uD83D\uDC4B Welcome, " + user + "!");
+        }
+
+        api.viewGames(new ClientDAO.gamesListener() {
+            @Override
+            public void onSuccess(String message) {
+                showToast(message);
             }
 
-        }
+            @Override
+            public void onError(String message) {
+                showToast(message);
+            }
+        });
+
+        /*if(user != null && !user.isEmpty() && pass != null && !pass.isEmpty()) {
+            //fazer login automatico
+            api.login(user, pass, new ClientDAO.loginListener() {
+                @Override
+                public void onSuccess(String token) {
+                    //se o login for OK editar o token...
+                }
+
+                @Override
+                public void onError(String message) {
+                    showToast(message);
+                }
+            });
+        } else {
+            //iniciar a activity de login
+        }*/
+
 
     }
 

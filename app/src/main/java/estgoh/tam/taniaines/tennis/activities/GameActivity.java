@@ -3,6 +3,7 @@ package estgoh.tam.taniaines.tennis.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Date;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.others.GameDBAdapter;
 import estgoh.tam.taniaines.tennis.R;
+import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 
 public class GameActivity extends AppCompatActivity{
 
@@ -29,7 +32,9 @@ public class GameActivity extends AppCompatActivity{
     private int[] score1 = {0, 0, 0};
     private int[] score2 = {0, 0, 0};
 
+    private SharedPreferences sharedPreferences;
     GameDBAdapter gAdapter;
+    ClientDAO api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +48,9 @@ public class GameActivity extends AppCompatActivity{
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Live Game");
 
+        sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
         gAdapter = new GameDBAdapter(this);
-
+        api = new RESTClientDAO();
 
         tournament = findViewById(R.id.tourName);
         player1 = findViewById(R.id.p1Name);
@@ -221,28 +227,38 @@ public class GameActivity extends AppCompatActivity{
         gAdapter.open();
         gAdapter.insertGame(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2);
         gAdapter.close();
-
+        String token = sharedPreferences.getString("token", "");
         Game game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2, new Date());
-        AlertDialog.Builder alert = new AlertDialog.Builder(GameActivity.this, R.style.CustomMaterialDialog);
-        alert.setTitle("Game saved");
-        if(game.getWinner() == 1) {
-            alert.setMessage("Congratulations, " + game.getPlayer1() + " you won the game. The game was automatically saved.");
-        } else {
-            alert.setMessage("Congratulations, " + game.getPlayer2() + " you won the game. The game was automatically saved.");
-        }
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        api.addGame(token, game, new ClientDAO.addGameListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
+            public void onSuccess(String message) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(GameActivity.this, R.style.CustomMaterialDialog);
+                alert.setTitle("Game saved");
+                if(game.getWinner() == 1) {
+                    alert.setMessage("Congratulations, " + game.getPlayer1() + " you won the game. The game was automatically saved.");
+                } else {
+                    alert.setMessage("Congratulations, " + game.getPlayer2() + " you won the game. The game was automatically saved.");
+                }
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        finish();
+                    }
+                });
+                alert.show();
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
-        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                finish();
-            }
-        });
-        alert.show();
     }
 
     //function to show a dialogue message congratulating the winner of the set

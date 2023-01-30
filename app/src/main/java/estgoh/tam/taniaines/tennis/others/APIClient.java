@@ -18,6 +18,9 @@ public interface APIClient {
     @POST("/user/login")
     Call<User> login(@Body HashMap<String, String> parameters);
 
+    @POST("/user/register")
+    Call<User> createAccount(@Body HashMap<String, String> parameters);
+
     @POST("/games/add")
     Call<Void> addGame(@Header ("token") String token,@Body Game game);
 

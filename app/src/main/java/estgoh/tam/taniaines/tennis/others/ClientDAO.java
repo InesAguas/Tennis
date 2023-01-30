@@ -12,6 +12,13 @@ public interface ClientDAO {
     }
     public void login(HashMap<String, String> params, loginListener listener);
 
+    public interface createAccountListener {
+        public void onSuccess(String message);
+        public void onError(String message);
+    }
+
+    public void createAccount(HashMap<String, String> params, createAccountListener listener);
+
     public interface addGameListener {
         public void onSuccess(String message);
         public void onError(String message);

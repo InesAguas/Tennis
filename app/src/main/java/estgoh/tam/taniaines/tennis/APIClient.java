@@ -1,5 +1,6 @@
 package estgoh.tam.taniaines.tennis;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -14,11 +15,9 @@ public interface APIClient {
     @GET("/")
     Call<Void> testing();
 
-    @FormUrlEncoded
     @POST("/user/login")
-    Call<String> login(@Field("username") String username, @Field("password") String password);
+    Call<User> login(@Body HashMap<String, String> parameters);
 
-    @Headers("token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwaXJhdGlvbiI6IjIwMjMtMDEtMjMgMTI6MDI6MzMuMzc4MjYwIn0.FZPPXeICzecw-OP6y-FyNkyI3NcCZJgVLTxNaTcq_CU")
     @GET("/games/all")
     Call<Void> viewGames();
 

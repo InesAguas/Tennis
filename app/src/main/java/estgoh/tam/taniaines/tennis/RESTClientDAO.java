@@ -1,5 +1,12 @@
 package estgoh.tam.taniaines.tennis;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+
+import java.util.HashMap;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,25 +29,32 @@ public class RESTClientDAO implements ClientDAO{
     }
 
     @Override
-    public void login(String username, String password, loginListener listener) {
-        Call<String> call = api.login(username, password);
-        call.enqueue(new Callback<String>() {
+    public void login(HashMap<String, String> params, loginListener listener) {
+        Call<User> call = api.login(params);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 switch(response.code()) {
                     case 200:
-                        //String token = response.body();
-                        listener.onSuccess("OK");
+                        User user = response.body();
+                        listener.onSuccess(user.getToken());
+                        break;
+                    case 400:
+                        listener.onError("Wrong credentials");
+                        break;
+                    case 500:
+                        listener.onError("Server Error");
                         break;
                     default:
-                        listener.onError(response.raw().toString());
+                        listener.onError("Response code: " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 listener.onError("Call error");
             }
+
         });
     }
 
@@ -65,5 +79,15 @@ public class RESTClientDAO implements ClientDAO{
                 listener.onError("Call error");
             }
         });
+    }
+}
+
+class User {
+    private int id;
+    private String token;
+    private String username;
+
+    public String getToken() {
+        return token;
     }
 }

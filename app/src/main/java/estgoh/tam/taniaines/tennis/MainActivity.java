@@ -19,6 +19,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,9 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView welcome;
     ClientDAO api;
 
-    public void showToast(String msg){
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,34 +66,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             welcome.setText("\uD83D\uDC4B Welcome, " + user + "!");
         }
 
-        api.viewGames(new ClientDAO.gamesListener() {
-            @Override
-            public void onSuccess(String message) {
-                showToast(message);
-            }
-
-            @Override
-            public void onError(String message) {
-                showToast(message);
-            }
-        });
-
-        /*if(user != null && !user.isEmpty() && pass != null && !pass.isEmpty()) {
-            //fazer login automatico
-            api.login(user, pass, new ClientDAO.loginListener() {
+        if(user != null && !user.isEmpty() && pass != null && !pass.isEmpty()) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("username", user);
+            map.put("password", pass);
+            api.login(map, new ClientDAO.loginListener() {
                 @Override
                 public void onSuccess(String token) {
-                    //se o login for OK editar o token...
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("token", token);
+                    editor.commit();
+                    Toast.makeText(getBaseContext(), "Welcome " + map.get("username"), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onError(String message) {
-                    showToast(message);
+                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            //iniciar a activity de login
-        }*/
+            Intent iLogin = new Intent(this, LoginActivity.class);
+            startActivity(iLogin);
+        }
 
 
     }

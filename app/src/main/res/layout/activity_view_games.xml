@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layoutDescription="@xml/activity_view_games_scene"
-    tools:context=".ViewGamesActivity">
+    tools:context=".activities.ViewGamesActivity">
 
     <ListView
         android:id="@+id/listGames"

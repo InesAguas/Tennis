@@ -1,4 +1,4 @@
-package estgoh.tam.taniaines.tennis;
+package estgoh.tam.taniaines.tennis.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,6 +15,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Date;
+
+import estgoh.tam.taniaines.tennis.Game;
+import estgoh.tam.taniaines.tennis.GameDBAdapter;
+import estgoh.tam.taniaines.tennis.R;
 
 public class GameActivity extends AppCompatActivity{
 

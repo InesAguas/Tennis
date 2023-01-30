@@ -1,14 +1,11 @@
-package estgoh.tam.taniaines.tennis;
+package estgoh.tam.taniaines.tennis.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,18 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
+import estgoh.tam.taniaines.tennis.ClientDAO;
+import estgoh.tam.taniaines.tennis.R;
+import estgoh.tam.taniaines.tennis.RESTClientDAO;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 

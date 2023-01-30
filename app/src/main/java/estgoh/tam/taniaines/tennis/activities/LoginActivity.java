@@ -1,4 +1,4 @@
-package estgoh.tam.taniaines.tennis;
+package estgoh.tam.taniaines.tennis.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.HashMap;
+
+import estgoh.tam.taniaines.tennis.ClientDAO;
+import estgoh.tam.taniaines.tennis.R;
+import estgoh.tam.taniaines.tennis.RESTClientDAO;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package estgoh.tam.taniaines.tennis;
+package estgoh.tam.taniaines.tennis.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import estgoh.tam.taniaines.tennis.Game;
+import estgoh.tam.taniaines.tennis.GameAdapter;
+import estgoh.tam.taniaines.tennis.GameDBAdapter;
+import estgoh.tam.taniaines.tennis.R;
 
 public class ViewGamesActivity extends AppCompatActivity {
 

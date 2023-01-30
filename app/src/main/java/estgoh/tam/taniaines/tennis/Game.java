@@ -14,7 +14,7 @@ public class Game implements Comparable<Game> {
     private int winner, id;
 
     //game constructor
-    Game(String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
+    public Game(String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
         this.tournament = tournament;
         this.player1 = player1;
         this.player2 = player2;
@@ -24,7 +24,7 @@ public class Game implements Comparable<Game> {
         this.winner = setWinner();
     }
 
-    Game(int id, String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
+    public Game(int id, String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
         this(tournament, player1, player2, score1, score2, date);
         this.id = id;
     }

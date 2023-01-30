@@ -1,10 +1,12 @@
-package estgoh.tam.taniaines.tennis;
+package estgoh.tam.taniaines.tennis.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import estgoh.tam.taniaines.tennis.R;
 
 public class AboutActivity extends AppCompatActivity {
 

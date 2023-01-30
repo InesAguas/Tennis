@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import estgoh.tam.taniaines.tennis.R;
 import estgoh.tam.taniaines.tennis.classes.Game;
@@ -20,9 +21,9 @@ import estgoh.tam.taniaines.tennis.classes.Game;
 public class GameAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Game> adaptGames;
+    private List<Game> adaptGames;
 
-    public GameAdapter(Context context, ArrayList<Game> games) {
+    public GameAdapter(Context context, List<Game> games) {
         this.context = context;
         this.adaptGames = games;
     }

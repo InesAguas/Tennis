@@ -1,6 +1,7 @@
 package estgoh.tam.taniaines.tennis.others;
 
 import java.util.HashMap;
+import java.util.List;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
 import estgoh.tam.taniaines.tennis.classes.User;
@@ -22,6 +23,6 @@ public interface APIClient {
     Call<Void> addGame(@Header ("token") String token,@Body Game game);
 
     @GET("/games/all")
-    Call<Void> viewGames();
+    Call<List<Game>> viewGames(@Header ("token") String token);
 
 }

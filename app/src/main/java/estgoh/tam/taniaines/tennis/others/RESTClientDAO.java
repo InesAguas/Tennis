@@ -55,6 +55,36 @@ public class RESTClientDAO implements ClientDAO{
     }
 
     @Override
+    public void createAccount(HashMap<String, String> params, createAccountListener listener) {
+        Call<User> call = api.createAccount(params);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                switch(response.code()) {
+                    case 200:
+                        listener.onSuccess("Account created successfully");
+                        break;
+                    case 400:
+                        listener.onError("User already exists");
+                        break;
+                    case 500:
+                        listener.onError("Server Error");
+                        break;
+                    default:
+                        listener.onError("Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                listener.onError("Error creating account");
+            }
+
+        });
+    }
+
+
+    @Override
     public void viewGames(gamesListener listener) {
         Call<Void> call = api.viewGames();
         call.enqueue(new Callback<Void>() {

@@ -2,6 +2,7 @@ package estgoh.tam.taniaines.tennis.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -68,7 +69,8 @@ public class LoginActivity extends AppCompatActivity {
         createAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //abrir activity nova ou usar dados desta pra criar conta??
+                Intent iCreateAccount = new Intent(LoginActivity.this, CreateAccountActivity.class);
+                startActivity(iCreateAccount);
             }
         });
     }

@@ -69,8 +69,25 @@ public class LoginActivity extends AppCompatActivity {
         createAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent iCreateAccount = new Intent(LoginActivity.this, CreateAccountActivity.class);
-                startActivity(iCreateAccount);
+                if(username.getText().toString().matches("") || password.getText().toString().matches("")
+                        || !username.getText().toString().matches("^[a-z0-9]+$")) {
+                    Toast.makeText(view.getContext(), "You have entered an empty string or username input has invalid characters", Toast.LENGTH_SHORT).show();
+                } else {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("username", username.getText().toString());
+                    map.put("password", password.getText().toString());
+                    api.createAccount(map, new ClientDAO.createAccountListener() {
+                        @Override
+                        public void onSuccess(String message) {
+                            Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }

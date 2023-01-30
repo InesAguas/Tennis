@@ -1,4 +1,4 @@
-package estgoh.tam.taniaines.tennis;
+package estgoh.tam.taniaines.tennis.others;
 
 import java.util.HashMap;
 

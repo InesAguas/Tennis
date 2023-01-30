@@ -1,12 +1,8 @@
-package estgoh.tam.taniaines.tennis;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
+package estgoh.tam.taniaines.tennis.others;
 
 import java.util.HashMap;
 
+import estgoh.tam.taniaines.tennis.classes.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -79,15 +75,5 @@ public class RESTClientDAO implements ClientDAO{
                 listener.onError("Call error");
             }
         });
-    }
-}
-
-class User {
-    private int id;
-    private String token;
-    private String username;
-
-    public String getToken() {
-        return token;
     }
 }

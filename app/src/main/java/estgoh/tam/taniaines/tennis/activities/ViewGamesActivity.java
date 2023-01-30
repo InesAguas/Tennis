@@ -15,9 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import estgoh.tam.taniaines.tennis.Game;
-import estgoh.tam.taniaines.tennis.GameAdapter;
-import estgoh.tam.taniaines.tennis.GameDBAdapter;
+import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.others.GameAdapter;
+import estgoh.tam.taniaines.tennis.others.GameDBAdapter;
 import estgoh.tam.taniaines.tennis.R;
 
 public class ViewGamesActivity extends AppCompatActivity {

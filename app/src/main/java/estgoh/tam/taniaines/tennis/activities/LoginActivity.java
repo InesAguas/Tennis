@@ -2,7 +2,6 @@ package estgoh.tam.taniaines.tennis.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +11,9 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-import estgoh.tam.taniaines.tennis.ClientDAO;
+import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.R;
-import estgoh.tam.taniaines.tennis.RESTClientDAO;
+import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 
 public class LoginActivity extends AppCompatActivity {
 

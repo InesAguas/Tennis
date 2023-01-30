@@ -1,8 +1,7 @@
-package estgoh.tam.taniaines.tennis;
+package estgoh.tam.taniaines.tennis.classes;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 //class Game implements Comparable so we can order items by date
 public class Game implements Comparable<Game> {

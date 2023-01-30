@@ -1,14 +1,11 @@
-package estgoh.tam.taniaines.tennis;
+package estgoh.tam.taniaines.tennis.others;
 
 import java.util.HashMap;
-import java.util.List;
 
+import estgoh.tam.taniaines.tennis.classes.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface APIClient {

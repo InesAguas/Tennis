@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-import estgoh.tam.taniaines.tennis.ClientDAO;
+import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.R;
-import estgoh.tam.taniaines.tennis.RESTClientDAO;
+import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 

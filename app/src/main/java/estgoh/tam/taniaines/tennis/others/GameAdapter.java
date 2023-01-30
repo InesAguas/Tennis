@@ -1,4 +1,4 @@
-package estgoh.tam.taniaines.tennis;
+package estgoh.tam.taniaines.tennis.others;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,11 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
+
+import estgoh.tam.taniaines.tennis.R;
+import estgoh.tam.taniaines.tennis.classes.Game;
 
 public class GameAdapter extends BaseAdapter {
 

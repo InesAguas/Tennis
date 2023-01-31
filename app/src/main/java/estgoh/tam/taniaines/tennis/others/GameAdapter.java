@@ -160,6 +160,7 @@ public class GameAdapter extends BaseAdapter {
                     @Override
                     public void onSuccess(String message) {
                         Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                        adaptGames.remove(position);
                         notifyDataSetChanged();
                     }
 

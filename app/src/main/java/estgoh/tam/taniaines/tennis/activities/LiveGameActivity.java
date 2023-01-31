@@ -3,6 +3,7 @@ package estgoh.tam.taniaines.tennis.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -24,7 +25,17 @@ public class LiveGameActivity extends AppCompatActivity {
 
         teste = findViewById(R.id.teste);
 
-        teste.setText(game.getPlayer1());
+        teste.setText(game.getStage());
+
+
         //mostrar informacoes jogo etc...
+    }
+
+    private class requestUpdates extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            return null;
+        }
     }
 }

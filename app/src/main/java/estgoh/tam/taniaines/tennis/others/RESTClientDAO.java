@@ -1,5 +1,9 @@
 package estgoh.tam.taniaines.tennis.others;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,13 +92,14 @@ public class RESTClientDAO implements ClientDAO{
 
     @Override
     public void addGame(String token, Game game, addGameListener listener) {
-        Call<Void> call = api.addGame(token,game);
-        call.enqueue(new Callback<Void>() {
+        Call<Game> call = api.addGame(token,game);
+        call.enqueue(new Callback<Game>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<Game> call, Response<Game> response) {
                 switch(response.code()) {
                     case 200:
-                        listener.onSuccess("Game saved");
+                        Game temp = response.body();
+                        listener.onSuccess(temp.getId());
                         break;
                     case 400:
                         listener.onError("Parameters missing");
@@ -108,7 +113,7 @@ public class RESTClientDAO implements ClientDAO{
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<Game> call, Throwable t) {
                 listener.onError("Call error");
             }
         });
@@ -168,6 +173,48 @@ public class RESTClientDAO implements ClientDAO{
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 listener.onError("Call error");
+            }
+        });
+    }
+
+    @Override
+    public void updateGame(String token, int id, int[] score1, int[] score2, int stage, updateGameListener listener) {
+        Call<Void> call = api.updateGame(token, id, score1, score2, stage);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getUpdates(String token, int id, int stage, getUpdatesListener listener) {
+        Call<Void> call = api.getUpdates(token, id, stage);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                switch(response.code()) {
+                    case 200:
+                        //aqui tem de enviar os dados novos
+                        listener.onSuccess("");
+                        break;
+                    case 500:
+                        listener.onError("Server Error");
+                        break;
+                    default:
+                        listener.onError("Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
             }
         });
     }

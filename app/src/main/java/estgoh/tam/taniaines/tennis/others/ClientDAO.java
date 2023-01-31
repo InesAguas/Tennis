@@ -24,4 +24,10 @@ public interface ClientDAO {
         public void onError(String message);
     }
     public void viewGames(String token, gamesListener listener);
+
+    public interface deleteGameListener {
+        public void onSuccess(String message);
+        public void onError(String message);
+    }
+    public void deleteGame(String token, int id, deleteGameListener listener);
 }

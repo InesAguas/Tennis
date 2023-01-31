@@ -6,13 +6,14 @@ import java.util.Date;
 //class Game implements Comparable so we can order items by date
 public class Game implements Comparable<Game> {
 
+    private int id;
     private String player1;
     private String player2;
     private String tournament;
     private int[] score1;
     private int[] score2;
     private Date date;
-    private int winner, id;
+    private int winner;
 
     //game constructor
     public Game(String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {

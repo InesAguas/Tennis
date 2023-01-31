@@ -28,9 +28,6 @@ import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 public class ViewGamesActivity extends AppCompatActivity {
 
     ListView gamesview;
-    Cursor cursor;
-    GameDBAdapter gAdapter;
-    List<Game> gameList;
 
     private SharedPreferences sharedPreferences;
     ClientDAO api;
@@ -50,7 +47,7 @@ public class ViewGamesActivity extends AppCompatActivity {
         api.viewGames(token, new ClientDAO.gamesListener() {
             @Override
             public void onSuccess(List<Game> games) {
-                ListAdapter adapter = new GameAdapter(getBaseContext(), games);
+                ListAdapter adapter = new GameAdapter(getBaseContext(), games, token);
                 gamesview = findViewById(R.id.listGames);
                 gamesview.setAdapter(adapter);
             }

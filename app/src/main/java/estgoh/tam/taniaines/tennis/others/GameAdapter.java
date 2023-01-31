@@ -3,6 +3,7 @@ package estgoh.tam.taniaines.tennis.others;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +26,14 @@ public class GameAdapter extends BaseAdapter {
     private Context context;
     private List<Game> adaptGames;
 
-    public GameAdapter(Context context, List<Game> games) {
+    private SharedPreferences sharedPreferences;
+    private String token;
+    ClientDAO api;
+
+    public GameAdapter(Context context, List<Game> games, String token) {
         this.context = context;
         this.adaptGames = games;
+        this.token = token;
     }
 
     @Override
@@ -139,22 +147,46 @@ public class GameAdapter extends BaseAdapter {
     }
 
     private void deleteGame(View view, int position) {
-        AlertDialog.Builder deleteGame = new AlertDialog.Builder(view.getContext(), R.style.CustomMaterialDialog);
-        deleteGame.setTitle("Delete game");
-        deleteGame.setMessage("Are you sure you want to delete this game?");
-        deleteGame.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        /*api = new RESTClientDAO();
+        Game game = adaptGames.get(position);
+        api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
+            @Override
+            public void onSuccess(String message) {
+                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });*/
+        AlertDialog.Builder deleteGameDialog = new AlertDialog.Builder(context, R.style.CustomMaterialDialog);
+        deleteGameDialog.setTitle("Delete game");
+        deleteGameDialog.setMessage("Are you sure you want to delete this game?");
+        deleteGameDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                GameDBAdapter gAdapter = new GameDBAdapter(context);
-                gAdapter.open();
-                if(gAdapter.deleteGame(adaptGames.get(position).getId()) == 1) {
-                    adaptGames.remove(position);
-                }
-                gAdapter.close();
-                notifyDataSetChanged();
+                /*api = new RESTClientDAO();
+                Game game = adaptGames.get(position);
+                api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
+                    @Override
+                    public void onSuccess(String message) {
+                        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });*/
+
             }
         });
-        deleteGame.setNegativeButton("No", null);
-        deleteGame.show();
+        deleteGameDialog.setNegativeButton("No", null);
+        deleteGameDialog.show();
     }
 }

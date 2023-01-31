@@ -1,6 +1,7 @@
 package estgoh.tam.taniaines.tennis.others;
 
 import java.util.HashMap;
+import java.util.List;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
 import estgoh.tam.taniaines.tennis.classes.User;
@@ -114,18 +115,53 @@ public class RESTClientDAO implements ClientDAO{
     }
 
     @Override
-    public void viewGames(gamesListener listener) {
-        Call<Void> call = api.viewGames();
+    public void viewGames(String token, gamesListener listener) {
+        Call<List<Game>> call = api.viewGames(token);
+        call.enqueue(new Callback<List<Game>>() {
+            @Override
+            public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
+                switch(response.code()) {
+                    case 200:
+                        List<Game> games = response.body();
+                        if(games == null){
+                            listener.onError("Null list");
+                            return;
+                        }
+                        listener.onSuccess(games);
+                        break;
+                    case 400:
+                        listener.onError("Parameters missing");
+                        break;
+                    case 500:
+                        listener.onError("Server Error");
+                        break;
+                    default:
+                        listener.onError("Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Game>> call, Throwable t) {
+                listener.onError("Call error");
+            }
+        });
+    }
+
+    @Override
+    public void deleteGame(String token, int id, deleteGameListener listener) {
+        Call<Void> call = api.deleteGame(token, id);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 switch(response.code()) {
                     case 200:
-                        //String token = response.body();
-                        listener.onSuccess(response.raw().toString());
+                        listener.onSuccess("Game deleted");
+                        break;
+                    case 500:
+                        listener.onError("Server Error");
                         break;
                     default:
-                        listener.onError(response.raw().toString());
+                        listener.onError("Response code: " + response.code());
                 }
             }
 

@@ -147,42 +147,27 @@ public class GameAdapter extends BaseAdapter {
     }
 
     private void deleteGame(View view, int position) {
-        /*api = new RESTClientDAO();
-        Game game = adaptGames.get(position);
-        api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
-            @Override
-            public void onSuccess(String message) {
-                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onError(String message) {
-                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-            }
-        });*/
         AlertDialog.Builder deleteGameDialog = new AlertDialog.Builder(context, R.style.CustomMaterialDialog);
+
         deleteGameDialog.setTitle("Delete game");
         deleteGameDialog.setMessage("Are you sure you want to delete this game?");
         deleteGameDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                /*api = new RESTClientDAO();
+                api = new RESTClientDAO();
                 Game game = adaptGames.get(position);
                 api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
                     @Override
                     public void onSuccess(String message) {
                         Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
-
                     }
 
                     @Override
                     public void onError(String message) {
                         Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
                     }
-                });*/
+                });
 
             }
         });

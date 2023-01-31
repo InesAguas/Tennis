@@ -28,9 +28,10 @@ import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 public class ViewGamesActivity extends AppCompatActivity {
 
     ListView gamesview;
-
+    List<Game> gamelist;
     private SharedPreferences sharedPreferences;
     ClientDAO api;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,23 +44,28 @@ public class ViewGamesActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
         api = new RESTClientDAO();
-        String token = sharedPreferences.getString("token", "");
+        token = sharedPreferences.getString("token", "");
         api.viewGames(token, new ClientDAO.gamesListener() {
             @Override
             public void onSuccess(List<Game> games) {
-                ListAdapter adapter = new GameAdapter(getBaseContext(), games, token);
-                gamesview = findViewById(R.id.listGames);
-                gamesview.setAdapter(adapter);
+                gamelist = games;
+                startAdap();
             }
 
             @Override
             public void onError(String message) {
                 Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
     }
 
+    public void startAdap() {
+        ListAdapter adapter = new GameAdapter(this, gamelist, token);
+        gamesview = findViewById(R.id.listGames);
+        gamesview.setAdapter(adapter);
+    }
 
     //function to have a return button
     public boolean onOptionsItemSelected(MenuItem item) {

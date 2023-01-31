@@ -93,6 +93,10 @@ public class RESTClientDAO implements ClientDAO{
                 switch(response.code()) {
                     case 200:
                         List<Game> games = response.body();
+                        if(games == null){
+                            listener.onError("Null list");
+                            return;
+                        }
                         listener.onSuccess(games);
                         break;
                     case 400:

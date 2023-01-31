@@ -156,4 +156,13 @@
         app:layout_constraintTop_toTopOf="@+id/listSet3P1"
         app:srcCompat="@drawable/mw_icon_checkmark_svg" />
 
+    <ImageView
+        android:id="@+id/liveImage"
+        android:layout_width="76dp"
+        android:layout_height="17dp"
+        app:layout_constraintBottom_toBottomOf="@+id/listNameTour"
+        app:layout_constraintStart_toEndOf="@+id/listNameTour"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/live_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

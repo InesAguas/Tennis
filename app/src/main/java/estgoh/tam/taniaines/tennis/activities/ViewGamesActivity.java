@@ -72,8 +72,10 @@ public class ViewGamesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent iliveGame = new Intent(view.getContext(), LiveGameActivity.class);
-                iliveGame.putExtra("game", gamelist.get(i));
-                startActivity(iliveGame);
+                if(gamelist.get(i).getStage() != 0) {
+                    iliveGame.putExtra("game", gamelist.get(i));
+                    startActivity(iliveGame);
+                }
             }
         });
     }

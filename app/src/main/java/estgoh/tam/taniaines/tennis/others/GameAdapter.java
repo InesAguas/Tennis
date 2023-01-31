@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,7 @@ public class GameAdapter extends BaseAdapter {
         TextView set1P2 = view.findViewById(R.id.listSet1P2);
         TextView set2P2 = view.findViewById(R.id.listSet2P2);
         TextView set3P2 = view.findViewById(R.id.listSet3P2);
+        ImageView liveImage = view.findViewById(R.id.liveImage);
 
         ImageButton deleteButton = view.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +143,12 @@ public class GameAdapter extends BaseAdapter {
         } else {
             view.findViewById(R.id.winner2Image).setVisibility(View.VISIBLE);
             view.findViewById(R.id.winner1Image).setVisibility(View.INVISIBLE);
+        }
+
+        if(game.getStage() != 0) {
+            liveImage.setVisibility(View.VISIBLE);
+        } else {
+            liveImage.setVisibility(View.INVISIBLE);
         }
 
         return view;

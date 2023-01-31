@@ -14,6 +14,7 @@ public class Game implements Comparable<Game>, Serializable {
     private int[] score1;
     private int[] score2;
     private Date date;
+    private int stage;
     private int winner;
 
     //game constructor
@@ -88,6 +89,10 @@ public class Game implements Comparable<Game>, Serializable {
     public String getDateFormatted() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return dateFormat.format(date);
+    }
+
+    public int getStage() {
+        return stage;
     }
 
     public int getWinner() {

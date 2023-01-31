@@ -1,10 +1,11 @@
 package estgoh.tam.taniaines.tennis.classes;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 //class Game implements Comparable so we can order items by date
-public class Game implements Comparable<Game> {
+public class Game implements Comparable<Game>, Serializable {
 
     private int id;
     private String player1;

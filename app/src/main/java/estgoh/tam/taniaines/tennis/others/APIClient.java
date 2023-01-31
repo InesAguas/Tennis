@@ -29,7 +29,7 @@ public interface APIClient {
 
     @GET("/games/all")
     Call<List<Game>> viewGames(@Header ("token") String token);
-    
+
     @DELETE("/games/{id}/delete")
     Call<Void> deleteGame(@Header("token") String token, @Path("id") int id);
 

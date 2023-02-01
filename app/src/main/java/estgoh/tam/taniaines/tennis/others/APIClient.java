@@ -15,6 +15,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -41,8 +42,7 @@ public interface APIClient {
     Call<Void> deleteGame(@Header("token") String token, @Path("id") int id);
 
     @PUT("/games/{id}/update")
-    Call<Void> updateGame(@Header("token") String token, @Path("id") int id,
-                          @Part("score1") int[] score1, @Part("score2") int[] score2, @Part("stage") int stage);
+    Call<Void> updateGame(@Header("token") String token, @Path("id") int id, @Body Game game);
 
     @GET("games/{id}/{stage}/update")
     Call<Void> getUpdates(@Header("token") String token, @Path("id") int id, @Path("stage") int stage);

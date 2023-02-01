@@ -42,7 +42,7 @@ public interface ClientDAO {
         public void onSuccess(String message);
         public void onError(String message);
     }
-    public void updateGame(String token, int id, int[] score1, int[] score2, int stage, updateGameListener listener);
+    public void updateGame(String token, int id,Game game, updateGameListener listener);
 
     public interface getUpdatesListener {
         public void onSuccess(String message);

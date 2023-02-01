@@ -178,17 +178,26 @@ public class RESTClientDAO implements ClientDAO{
     }
 
     @Override
-    public void updateGame(String token, int id, int[] score1, int[] score2, int stage, updateGameListener listener) {
-        Call<Void> call = api.updateGame(token, id, score1, score2, stage);
+    public void updateGame(String token, int id, Game game, updateGameListener listener) {
+        Call<Void> call = api.updateGame(token, id, game);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-
+                switch(response.code()) {
+                    case 200:
+                        listener.onSuccess("Game updated");
+                        break;
+                    case 500:
+                        listener.onError("Server Error");
+                        break;
+                    default:
+                        listener.onError("Response code: " + response.code());
+                }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-
+                listener.onError("Call error");
             }
         });
     }

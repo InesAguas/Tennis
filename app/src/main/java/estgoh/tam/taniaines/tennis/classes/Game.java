@@ -28,15 +28,6 @@ public class Game implements Comparable<Game>, Serializable {
         this.winner = setWinner();
     }
 
-    public Game(int id, String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
-        this(tournament, player1, player2, score1, score2, date);
-        this.id = id;
-    }
-
-    public Game(int id) {
-        this.id = id;
-    }
-
     //function to determine the winner of the game
     private int setWinner() {
         if(countWins(1) > countWins(2)) {
@@ -111,6 +102,12 @@ public class Game implements Comparable<Game>, Serializable {
     }
     public void setStage(int stage) {
         this.stage = stage;
+    }
+    public void setScore1(int[] score1) {
+        this.score1 = score1;
+    }
+    public void setScore2(int[] score2) {
+        this.score2 = score2;
     }
     //function to compare games by date
     @Override

@@ -17,7 +17,7 @@ import estgoh.tam.taniaines.tennis.classes.Game;
 
 public class LiveGameActivity extends AppCompatActivity {
 
-    private TextView teste;
+    private TextView tournament, set, p1, p2, setscore, pl1, pl2, p1s1, p1s2, p1s3, p2s1, p2s2, p2s3, sc1, sc2;
     private Handler handler;
 
     @Override
@@ -27,9 +27,42 @@ public class LiveGameActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
-        Game game = (Game)b.getSerializable("game");
 
-        teste = findViewById(R.id.teste);
+        Game game = (Game)b.getSerializable("game");
+        tournament = findViewById(R.id.tournamentLive); //ok
+        set = findViewById(R.id.setLive);
+        p1 = findViewById(R.id.p1Live); //ok
+        p2 = findViewById(R.id.p2Live); //ok
+        setscore = findViewById(R.id.scoreLive);
+        pl1 = findViewById(R.id.p1Live2); //ok
+        pl2 = findViewById(R.id.p2Live2); //ok
+        p1s1 = findViewById(R.id.p1set1);
+        p1s2 = findViewById(R.id.p1set2);
+        p1s3 = findViewById(R.id.p1set3);
+        p2s1 = findViewById(R.id.p2set1);
+        p2s2 = findViewById(R.id.p2set2);
+        p2s3 = findViewById(R.id.p2set3);
+        sc1 = findViewById(R.id.p1score);
+        sc2 = findViewById(R.id.p2score);
+
+        tournament.setText(game.getTournament());
+        //set aqui......
+        p1.setText(game.getPlayer1());
+        pl1.setText(game.getPlayer1());
+        p2.setText(game.getPlayer2());
+        pl2.setText(game.getPlayer2());
+        //set score...
+
+        p1s1.setText(game.getScore1(0) + "");
+        p1s2.setText(game.getScore1(1) + "");
+        p1s3.setText(game.getScore1(2) + "");
+
+        p2s1.setText(game.getScore2(0) + "");
+        p2s2.setText(game.getScore2(1) + "");
+        p2s3.setText(game.getScore2(2) + "");
+
+        //sc1 e sc2... meter na BD
+
         handler = new Handler();
         handler.postDelayed(runnable, 5000);
 
@@ -42,7 +75,6 @@ public class LiveGameActivity extends AppCompatActivity {
         @Override
         public void run() {
             Random rand = new Random();
-            teste.setText(rand.nextInt(20) + "");
             /* and here comes the "trick" */
             handler.postDelayed(this, 10000);
         }

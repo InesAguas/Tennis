@@ -7,13 +7,181 @@
     tools:context=".activities.LiveGameActivity">
 
     <TextView
-        android:id="@+id/teste"
+        android:id="@+id/p1Live"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="teste"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="player1"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreLive"
+        app:layout_constraintEnd_toStartOf="@+id/scoreLive"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scoreLive" />
+
+    <TextView
+        android:id="@+id/p2Live"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="player2"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreLive"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toEndOf="@+id/scoreLive"
+        app:layout_constraintTop_toTopOf="@+id/scoreLive" />
+
+    <TextView
+        android:id="@+id/tournamentLive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="tournament"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scoreLive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="3-3"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/setLive"
+        app:layout_constraintStart_toStartOf="@+id/setLive"
+        app:layout_constraintTop_toBottomOf="@+id/setLive" />
+
+    <TextView
+        android:id="@+id/setLive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="Set 1"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/tournamentLive"
+        app:layout_constraintStart_toStartOf="@+id/tournamentLive"
+        app:layout_constraintTop_toBottomOf="@+id/tournamentLive" />
+
+    <TextView
+        android:id="@+id/p1Live2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="player1"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/p1set2"
+        app:layout_constraintEnd_toStartOf="@+id/p1set1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/p1set2" />
+
+    <TextView
+        android:id="@+id/p2Live2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="player2"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/p1Live2"
+        app:layout_constraintStart_toStartOf="@+id/p1Live2"
+        app:layout_constraintTop_toBottomOf="@+id/p1Live2" />
+
+    <TextView
+        android:id="@+id/p1set1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="3"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/p1set2"
+        app:layout_constraintEnd_toStartOf="@+id/p1set2"
+        app:layout_constraintTop_toTopOf="@+id/p1set2" />
+
+    <TextView
+        android:id="@+id/p1set2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:text="2"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/scoreLive"
+        app:layout_constraintStart_toStartOf="@+id/scoreLive"
+        app:layout_constraintTop_toBottomOf="@+id/scoreLive" />
+
+    <TextView
+        android:id="@+id/p1set3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="3"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/p1set2"
+        app:layout_constraintStart_toEndOf="@+id/p1set2"
+        app:layout_constraintTop_toTopOf="@+id/p1set2" />
+
+    <TextView
+        android:id="@+id/p1score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:text="30"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/p1set2"
+        app:layout_constraintStart_toEndOf="@+id/p1set3"
+        app:layout_constraintTop_toTopOf="@+id/p1set2" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="68dp"
+        android:layout_height="26dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tournamentLive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tournamentLive"
+        app:layout_constraintTop_toTopOf="@+id/tournamentLive"
+        app:srcCompat="@drawable/live_button" />
+
+    <TextView
+        android:id="@+id/p2set1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/p2Live2"
+        app:layout_constraintEnd_toEndOf="@+id/p1set1"
+        app:layout_constraintStart_toStartOf="@+id/p1set1"
+        app:layout_constraintTop_toTopOf="@+id/p2Live2" />
+
+    <TextView
+        android:id="@+id/p2set2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/p2Live2"
+        app:layout_constraintEnd_toEndOf="@+id/p1set2"
+        app:layout_constraintStart_toStartOf="@+id/p1set2"
+        app:layout_constraintTop_toTopOf="@+id/p2Live2" />
+
+    <TextView
+        android:id="@+id/p2set3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/p2Live2"
+        app:layout_constraintEnd_toEndOf="@+id/p1set3"
+        app:layout_constraintStart_toStartOf="@+id/p1set3"
+        app:layout_constraintTop_toTopOf="@+id/p2Live2" />
+
+    <TextView
+        android:id="@+id/p2score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/p2Live2"
+        app:layout_constraintEnd_toEndOf="@+id/p1score"
+        app:layout_constraintStart_toStartOf="@+id/p1score"
+        app:layout_constraintTop_toTopOf="@+id/p2Live2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

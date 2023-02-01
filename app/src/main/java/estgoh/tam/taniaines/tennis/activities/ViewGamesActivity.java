@@ -3,10 +3,13 @@ package estgoh.tam.taniaines.tennis.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -65,6 +68,16 @@ public class ViewGamesActivity extends AppCompatActivity {
         ListAdapter adapter = new GameAdapter(this, gamelist, token);
         gamesview = findViewById(R.id.listGames);
         gamesview.setAdapter(adapter);
+        gamesview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent iliveGame = new Intent(view.getContext(), LiveGameActivity.class);
+                if(gamelist.get(i).getStage() != 0) {
+                    iliveGame.putExtra("game", gamelist.get(i));
+                    startActivity(iliveGame);
+                }
+            }
+        });
     }
 
     //function to have a return button

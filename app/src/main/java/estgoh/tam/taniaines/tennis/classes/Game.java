@@ -1,10 +1,11 @@
 package estgoh.tam.taniaines.tennis.classes;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 //class Game implements Comparable so we can order items by date
-public class Game implements Comparable<Game> {
+public class Game implements Comparable<Game>, Serializable {
 
     private int id;
     private String player1;
@@ -13,6 +14,7 @@ public class Game implements Comparable<Game> {
     private int[] score1;
     private int[] score2;
     private Date date;
+    private int stage;
     private int winner;
 
     //game constructor
@@ -24,11 +26,6 @@ public class Game implements Comparable<Game> {
         this.score2 = score2;
         this.date = date;
         this.winner = setWinner();
-    }
-
-    public Game(int id, String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
-        this(tournament, player1, player2, score1, score2, date);
-        this.id = id;
     }
 
     //function to determine the winner of the game
@@ -89,12 +86,28 @@ public class Game implements Comparable<Game> {
         return dateFormat.format(date);
     }
 
+    public int getStage() {
+        return stage;
+    }
+
     public int getWinner() {
         return winner;
     }
 
     public int getId() {
         return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setStage(int stage) {
+        this.stage = stage;
+    }
+    public void setScore1(int[] score1) {
+        this.score1 = score1;
+    }
+    public void setScore2(int[] score2) {
+        this.score2 = score2;
     }
     //function to compare games by date
     @Override

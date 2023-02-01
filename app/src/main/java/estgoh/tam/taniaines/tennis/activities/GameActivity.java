@@ -32,6 +32,9 @@ public class GameActivity extends AppCompatActivity{
     private int[] score1 = {0, 0, 0};
     private int[] score2 = {0, 0, 0};
 
+    private Game game;
+    private String token;
+
     private SharedPreferences sharedPreferences;
     GameDBAdapter gAdapter;
     ClientDAO api;
@@ -77,6 +80,8 @@ public class GameActivity extends AppCompatActivity{
         name_player2.setText(b.getString("player2"));
 
         num_set = 1;
+        token = sharedPreferences.getString("token", "");
+        startGame();
 
         //listener for the score button of player 1
         btn_player1.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +106,6 @@ public class GameActivity extends AppCompatActivity{
                 endGame();
             }
         });
-
     }
 
     @Override
@@ -181,6 +185,7 @@ public class GameActivity extends AppCompatActivity{
 
         if(player.equals("p1")) {
             score1[num_set-1] += 1;
+            update();
             set1_p1.setText(score1[0] + "");
             set2_p1.setText(score1[1] + "");
             set3_p1.setText(score1[2] + "");
@@ -196,6 +201,7 @@ public class GameActivity extends AppCompatActivity{
             }
         } else {
             score2[num_set-1] += 1;
+            update();
             set1_p2.setText(score2[0] + "");
             set2_p2.setText(score2[1] + "");
             set3_p2.setText(score2[2] + "");
@@ -217,19 +223,11 @@ public class GameActivity extends AppCompatActivity{
 
     //function to save the game
     private void saveGame(){
-        int[] sc1 = new int[3];
-        int[] sc2 = new int[3];
-        for(int i = 0; i < 3; i++) {
-            sc1[i] = score1[i];
-            sc2[i] = score2[i];
-        }
+        game.setScore1(score1);
+        game.setScore2(score2);
+        game.setStage(0);
 
-        gAdapter.open();
-        gAdapter.insertGame(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2);
-        gAdapter.close();
-        String token = sharedPreferences.getString("token", "");
-        Game game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2, new Date());
-        api.addGame(token, game, new ClientDAO.addGameListener() {
+        api.updateGame(token, game.getId(), game, new ClientDAO.updateGameListener() {
             @Override
             public void onSuccess(String message) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(GameActivity.this, R.style.CustomMaterialDialog);
@@ -257,6 +255,43 @@ public class GameActivity extends AppCompatActivity{
             @Override
             public void onError(String message) {
                 Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    private void startGame() {
+        int[] sc1 = {0,0,0};
+        int[] sc2 = {0,0,0};
+        game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2, new Date());
+        api.addGame(token, game, new ClientDAO.addGameListener() {
+            @Override
+            public void onSuccess(int id) {
+                game.setId(id);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    private void update() {
+        game.setScore1(score1);
+        game.setScore2(score2);
+        game.setStage(game.getStage() + 1);
+        api.updateGame(token, game.getId(), game, new ClientDAO.updateGameListener() {
+            @Override
+            public void onSuccess(String message) {
+                //nao faz nada...
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -304,6 +339,17 @@ public class GameActivity extends AppCompatActivity{
         alertEnd.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
+                    @Override
+                    public void onSuccess(String message) {
+                        //apagou o jogo
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        //nao apagou...
+                    }
+                });
                 finish();
             }
         });

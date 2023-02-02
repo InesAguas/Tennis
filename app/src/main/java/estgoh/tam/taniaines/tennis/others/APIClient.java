@@ -45,7 +45,7 @@ public interface APIClient {
     Call<Void> updateGame(@Header("token") String token, @Path("id") int id, @Body Game game);
 
     @GET("games/{id}/{stage}/update")
-    Call<Void> getUpdates(@Header("token") String token, @Path("id") int id, @Path("stage") int stage);
+    Call<Game> getUpdates(@Header("token") String token, @Path("id") int id, @Path("stage") int stage);
 
 
 }

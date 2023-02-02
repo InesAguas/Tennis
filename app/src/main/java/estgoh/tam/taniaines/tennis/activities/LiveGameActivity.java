@@ -3,6 +3,7 @@ package estgoh.tam.taniaines.tennis.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
@@ -14,11 +15,16 @@ import java.util.TimerTask;
 
 import estgoh.tam.taniaines.tennis.R;
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.others.ClientDAO;
+import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 
 public class LiveGameActivity extends AppCompatActivity {
 
     private TextView tournament, set, p1, p2, setscore, pl1, pl2, p1s1, p1s2, p1s3, p2s1, p2s2, p2s3, sc1, sc2;
     private Handler handler;
+    ClientDAO api;
+    private SharedPreferences sharedPreferences;
+    private Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +34,7 @@ public class LiveGameActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle b = i.getExtras();
 
-        Game game = (Game)b.getSerializable("game");
+        game = (Game)b.getSerializable("game");
         tournament = findViewById(R.id.tournamentLive); //ok
         set = findViewById(R.id.setLive);
         p1 = findViewById(R.id.p1Live); //ok
@@ -46,45 +52,68 @@ public class LiveGameActivity extends AppCompatActivity {
         sc2 = findViewById(R.id.p2score);
 
         tournament.setText(game.getTournament());
-        //set aqui......
+        set.setText("Set " + game.currentSet());
         p1.setText(game.getPlayer1());
         pl1.setText(game.getPlayer1());
         p2.setText(game.getPlayer2());
         pl2.setText(game.getPlayer2());
-        //set score...
+        sc1.setText(game.getPoints1());
+        sc2.setText(game.getPoints2());
 
-        p1s1.setText(game.getScore1(0) + "");
-        p1s2.setText(game.getScore1(1) + "");
-        p1s3.setText(game.getScore1(2) + "");
+        p1s1.setText(game.getSetScore1(0) + "");
+        p1s2.setText(game.getSetScore1(1) + "");
+        p1s3.setText(game.getSetScore1(2) + "");
 
-        p2s1.setText(game.getScore2(0) + "");
-        p2s2.setText(game.getScore2(1) + "");
-        p2s3.setText(game.getScore2(2) + "");
+        p2s1.setText(game.getSetScore2(0) + "");
+        p2s2.setText(game.getSetScore2(1) + "");
+        p2s3.setText(game.getSetScore2(2) + "");
 
         //sc1 e sc2... meter na BD
+        api = new RESTClientDAO();
+        sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
 
         handler = new Handler();
         handler.postDelayed(runnable, 5000);
-
-        //teste.setText(game.getStage());
-
-        //mostrar informacoes jogo etc...
     }
 
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Random rand = new Random();
-            /* and here comes the "trick" */
+            String token = sharedPreferences.getString("token", "");
+            api.getUpdates(token, game.getId(), game.getStage(), new ClientDAO.getUpdatesListener() {
+                @Override
+                public void onSuccess(Game tempGame) {
+                    if(tempGame != null) {
+                        game.setScore1(tempGame.getScore1());
+                        game.setScore2(tempGame.getScore2());
+                        game.setPoints1(tempGame.getPoints1());
+                        game.setPoints2(tempGame.getPoints2());
+                        updateScores();
+                    }
+                }
+
+                @Override
+                public void onError(String message) {
+                }
+            });
+
             handler.postDelayed(this, 10000);
         }
     };
 
+    private void updateScores() {
+        set.setText("Set " + game.currentSet());
 
-    public void showToast(String msg){
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        p1s1.setText(game.getSetScore1(0) + "");
+        p1s2.setText(game.getSetScore1(1) + "");
+        p1s3.setText(game.getSetScore1(2) + "");
+
+        p2s1.setText(game.getSetScore2(0) + "");
+        p2s2.setText(game.getSetScore2(1) + "");
+        p2s3.setText(game.getSetScore2(2) + "");
+
+        sc1.setText(game.getPoints1());
+        sc2.setText(game.getPoints2());
     }
-
-
 
 }

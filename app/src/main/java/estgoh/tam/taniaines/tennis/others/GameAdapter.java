@@ -85,14 +85,14 @@ public class GameAdapter extends BaseAdapter {
         date.setText(game.getDateFormatted());
         player1.setText(game.getPlayer1());
         player2.setText(game.getPlayer2());
-        set1P1.setText(game.getScore1(0) + "");
-        set2P1.setText(game.getScore1(1) + "");
-        set3P1.setText(game.getScore1(2) + "");
-        set1P2.setText(game.getScore2(0) + "");
-        set2P2.setText(game.getScore2(1) + "");
-        set3P2.setText(game.getScore2(2) + "");
+        set1P1.setText(game.getSetScore1(0) + "");
+        set2P1.setText(game.getSetScore1(1) + "");
+        set3P1.setText(game.getSetScore1(2) + "");
+        set1P2.setText(game.getSetScore2(0) + "");
+        set2P2.setText(game.getSetScore2(1) + "");
+        set3P2.setText(game.getSetScore2(2) + "");
 
-        if(game.getScore1(0) > game.getScore2(0)) {
+        if(game.getSetScore1(0) > game.getSetScore2(0)) {
             set1P1.setTypeface(null, Typeface.BOLD);
             set1P1.setTextColor(Color.rgb(0,153,0));
             set1P2.setTypeface(null, Typeface.NORMAL);
@@ -104,7 +104,7 @@ public class GameAdapter extends BaseAdapter {
             set1P1.setTextColor(Color.rgb(60,60,60));
         }
 
-        if(game.getScore1(1) > game.getScore2(1)) {
+        if(game.getSetScore1(1) > game.getSetScore2(1)) {
             set2P1.setTypeface(null, Typeface.BOLD);
             set2P1.setTextColor(Color.rgb(0,153,0));
             set2P2.setTypeface(null, Typeface.NORMAL);
@@ -116,8 +116,8 @@ public class GameAdapter extends BaseAdapter {
             set2P1.setTextColor(Color.rgb(60,60,60));
         }
 
-        if(game.getScore1(2) != 0 || game.getScore2(2) != 0) {
-            if(game.getScore1(2) > game.getScore2(2)) {
+        if(game.getSetScore1(2) != 0 || game.getSetScore2(2) != 0) {
+            if(game.getSetScore1(2) > game.getSetScore2(2)) {
                 set3P1.setTypeface(null, Typeface.BOLD);
                 set3P1.setTextColor(Color.rgb(0,153,0));
                 set3P2.setTypeface(null, Typeface.NORMAL);

@@ -144,6 +144,10 @@ public class GameActivity extends AppCompatActivity{
                 changeScore("p1");
             }
         }
+
+        game.setPoints1(pt_player1.getText().toString());
+        game.setPoints2(pt_player2.getText().toString());
+        update();
     }
 
     //function to change score numbers when player 2 scores
@@ -176,6 +180,10 @@ public class GameActivity extends AppCompatActivity{
                 changeScore("p2");
             }
         }
+
+        game.setPoints1(pt_player1.getText().toString());
+        game.setPoints2(pt_player2.getText().toString());
+        update();
     }
 
     //function to change set scores when a player wins a game
@@ -185,7 +193,6 @@ public class GameActivity extends AppCompatActivity{
 
         if(player.equals("p1")) {
             score1[num_set-1] += 1;
-            update();
             set1_p1.setText(score1[0] + "");
             set2_p1.setText(score1[1] + "");
             set3_p1.setText(score1[2] + "");
@@ -201,7 +208,6 @@ public class GameActivity extends AppCompatActivity{
             }
         } else {
             score2[num_set-1] += 1;
-            update();
             set1_p2.setText(score2[0] + "");
             set2_p2.setText(score2[1] + "");
             set3_p2.setText(score2[2] + "");

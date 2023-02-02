@@ -45,7 +45,7 @@ public interface ClientDAO {
     public void updateGame(String token, int id,Game game, updateGameListener listener);
 
     public interface getUpdatesListener {
-        public void onSuccess(String message);
+        public void onSuccess(Game game);
         public void onError(String message);
     }
     public void getUpdates(String token, int id, int stage, getUpdatesListener listener);

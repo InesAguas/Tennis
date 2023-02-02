@@ -7,15 +7,11 @@ import java.util.Date;
 //class Game implements Comparable so we can order items by date
 public class Game implements Comparable<Game>, Serializable {
 
-    private int id;
-    private String player1;
-    private String player2;
-    private String tournament;
+    private int id, stage, winner;
+    private String player1, player2, tournament, points1, points2;
     private int[] score1;
     private int[] score2;
     private Date date;
-    private int stage;
-    private int winner;
 
     //game constructor
     public Game(String tournament, String player1, String player2, int[] score1, int[] score2, Date date) {
@@ -26,6 +22,9 @@ public class Game implements Comparable<Game>, Serializable {
         this.score2 = score2;
         this.date = date;
         this.winner = setWinner();
+        this.stage = 1;
+        this.points1 = "0";
+        this.points2 = "0";
     }
 
     //function to determine the winner of the game
@@ -68,12 +67,20 @@ public class Game implements Comparable<Game>, Serializable {
         return player2;
     }
 
-    public int getScore1(int position) {
+    public int getSetScore1(int position) {
         return score1[position];
     }
 
-    public int getScore2(int position) {
+    public int getSetScore2(int position) {
         return score2[position];
+    }
+
+    public int[] getScore1() {
+        return score1;
+    }
+
+    public int[] getScore2() {
+        return score2;
     }
 
     public Date getDate() {
@@ -97,17 +104,46 @@ public class Game implements Comparable<Game>, Serializable {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public void setStage(int stage) {
         this.stage = stage;
     }
+
     public void setScore1(int[] score1) {
         this.score1 = score1;
     }
+
     public void setScore2(int[] score2) {
         this.score2 = score2;
+    }
+
+    public String getPoints1() {
+        return points1;
+    }
+
+    public String getPoints2() {
+        return points2;
+    }
+
+    public void setPoints1(String points1) {
+        this.points1 = points1;
+    }
+
+    public void setPoints2(String points2) {
+        this.points2 = points2;
+    }
+
+    public int currentSet() {
+        //7-6 ganha, 7-5 ganha, 6-4,6-3,etc ganha
+        for(int i = 0; i < 3; i++) {
+            if(!(score1[i] > 6 || score1[i] == 6 && score2[i] <= 4) && !(score2[i] > 6 || score2[i] == 6 && score1[i] <= 4))
+                return i+1;
+        }
+        return 0;
     }
     //function to compare games by date
     @Override

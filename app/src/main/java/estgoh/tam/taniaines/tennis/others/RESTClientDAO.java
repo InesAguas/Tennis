@@ -204,15 +204,17 @@ public class RESTClientDAO implements ClientDAO{
 
     @Override
     public void getUpdates(String token, int id, int stage, getUpdatesListener listener) {
-        Call<Void> call = api.getUpdates(token, id, stage);
-        call.enqueue(new Callback<Void>() {
+        Call<Game> call = api.getUpdates(token, id, stage);
+        call.enqueue(new Callback<Game>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<Game> call, Response<Game> response) {
                 switch(response.code()) {
                     case 200:
-                        //aqui tem de enviar os dados novos
-                        listener.onSuccess("");
+                        Game game = response.body();
+                        listener.onSuccess(game);
                         break;
+                    case 204:
+                        listener.onSuccess(null);
                     case 500:
                         listener.onError("Server Error");
                         break;
@@ -222,7 +224,7 @@ public class RESTClientDAO implements ClientDAO{
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<Game> call, Throwable t) {
 
             }
         });

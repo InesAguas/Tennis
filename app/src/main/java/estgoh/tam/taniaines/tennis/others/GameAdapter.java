@@ -21,20 +21,20 @@ import java.util.List;
 
 import estgoh.tam.taniaines.tennis.R;
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.classes.User;
 
 public class GameAdapter extends BaseAdapter {
 
     private Context context;
     private List<Game> adaptGames;
 
-    private SharedPreferences sharedPreferences;
-    private String token;
+    private User user;
     ClientDAO api;
 
-    public GameAdapter(Context context, List<Game> games, String token) {
+    public GameAdapter(Context context, List<Game> games, User user) {
         this.context = context;
         this.adaptGames = games;
-        this.token = token;
+        this.user = user;
     }
 
     @Override
@@ -162,9 +162,9 @@ public class GameAdapter extends BaseAdapter {
         deleteGameDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                api = new RESTClientDAO();
+                api = new RESTClientDAO(user, context);
                 Game game = adaptGames.get(position);
-                api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
+                api.deleteGame(user.getToken(), game.getId(), new ClientDAO.deleteGameListener() {
                     @Override
                     public void onSuccess(String message) {
                         Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();

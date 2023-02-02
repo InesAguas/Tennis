@@ -1,6 +1,8 @@
 package estgoh.tam.taniaines.tennis.others;
 
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,6 +11,7 @@ import java.util.List;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
 import estgoh.tam.taniaines.tennis.classes.User;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,21 +21,32 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RESTClientDAO implements ClientDAO{
 
+    private User user;
+    private Context context;
     APIClient api;
+    TokenAuthenticator testes;
 
-    public RESTClientDAO(){
+    public RESTClientDAO(User user, Context context){
+        this.user = user;
+        this.context = context;
+        testes = new TokenAuthenticator(user, context);
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.authenticator(testes);
+
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://api-android-inesaguas.vercel.app")
+                .baseUrl("https://api-android.vercel.app")
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create());
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build());
 
         Retrofit retrofit = builder.build();
         api = retrofit.create(APIClient.class);
     }
 
     @Override
-    public void login(HashMap<String, String> params, loginListener listener) {
-        Call<User> call = api.login(params);
+    public void login(User user, loginListener listener) {
+        Call<User> call = api.login(user);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -61,8 +75,8 @@ public class RESTClientDAO implements ClientDAO{
     }
 
     @Override
-    public void createAccount(HashMap<String, String> params, createAccountListener listener) {
-        Call<User> call = api.createAccount(params);
+    public void createAccount(User user, createAccountListener listener) {
+        Call<User> call = api.createAccount(user);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

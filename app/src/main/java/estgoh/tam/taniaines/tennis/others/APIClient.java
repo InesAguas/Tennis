@@ -27,10 +27,10 @@ public interface APIClient {
     Call<Void> testing();
 
     @POST("/user/login")
-    Call<User> login(@Body HashMap<String, String> parameters);
+    Call<User> login(@Body User user);
 
     @POST("/user/register")
-    Call<User> createAccount(@Body HashMap<String, String> parameters);
+    Call<User> createAccount(@Body User user);
 
     @POST("/games/add")
     Call<Game> addGame(@Header ("token") String token, @Body Game game);

@@ -15,6 +15,7 @@ import java.util.TimerTask;
 
 import estgoh.tam.taniaines.tennis.R;
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.classes.User;
 import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 
@@ -25,6 +26,7 @@ public class LiveGameActivity extends AppCompatActivity {
     ClientDAO api;
     private SharedPreferences sharedPreferences;
     private Game game;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class LiveGameActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle b = i.getExtras();
 
+        user = (User)b.getSerializable("user");
         game = (Game)b.getSerializable("game");
         tournament = findViewById(R.id.tournamentLive); //ok
         set = findViewById(R.id.setLive);
@@ -69,7 +72,7 @@ public class LiveGameActivity extends AppCompatActivity {
         p2s3.setText(game.getSetScore2(2) + "");
 
         //sc1 e sc2... meter na BD
-        api = new RESTClientDAO();
+        api = new RESTClientDAO(user, this);
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
 
         handler = new Handler();

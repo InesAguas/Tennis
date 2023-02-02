@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
+import estgoh.tam.taniaines.tennis.classes.User;
 import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.R;
 import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText player1, player2, tournament;
     private SharedPreferences sharedPreferences;
     private TextView welcome;
+    private User user;
     ClientDAO api;
 
 
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        api = new RESTClientDAO();
+        api = new RESTClientDAO(user, this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Tennis Scores");
@@ -51,25 +53,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
 
-        String user = sharedPreferences.getString("username", "");
+        String username = sharedPreferences.getString("username", "");
         String pass = sharedPreferences.getString("password", "");
-        if (user != null && !user.isEmpty()) {
-            welcome.setText("\uD83D\uDC4B Welcome, " + user + "!");
-        }
 
-        if(user != null && !user.isEmpty() && pass != null && !pass.isEmpty()) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("username", user);
-            map.put("password", pass);
-            api.login(map, new ClientDAO.loginListener() {
+        if(username != null && !username.isEmpty() && pass != null && !pass.isEmpty()) {
+            user = new User(username, pass);
+            api.login(user, new ClientDAO.loginListener() {
                 @Override
                 public void onSuccess(String token) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", token);
                     editor.commit();
-                    Toast.makeText(getBaseContext(), "Welcome " + map.get("username"), Toast.LENGTH_SHORT).show();
+                    user.setToken(token);
+                    Toast.makeText(getBaseContext(), "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
                 }
-
                 @Override
                 public void onError(String message) {
                     Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
@@ -77,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         } else {
             Intent iLogin = new Intent(this, LoginActivity.class);
+            iLogin.putExtra("user", user);
             startActivity(iLogin);
         }
 
@@ -96,12 +94,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     iStart.putExtra("player1", player1.getText().toString());
                     iStart.putExtra("player2", player2.getText().toString());
                     iStart.putExtra("tournament", tournament.getText().toString());
+                    iStart.putExtra("user", user);
                     startActivity(iStart);
                 }
                 break;
             case R.id.buttonViewGames:
                 //when the view games button is pressed, starts activity
                 Intent iViewGames = new Intent(this, ViewGamesActivity.class);
+                iViewGames.putExtra("user", user);
                 startActivity(iViewGames);
                 break;
         }

@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.classes.User;
 import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.others.GameAdapter;
 import estgoh.tam.taniaines.tennis.others.GameDBAdapter;
@@ -35,18 +36,23 @@ public class ViewGamesActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     ClientDAO api;
     String token;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_games);
 
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        user = (User)b.getSerializable("user");
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Games");
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
-        api = new RESTClientDAO();
+        api = new RESTClientDAO(user, this);
         token = sharedPreferences.getString("token", "");
         api.viewGames(token, new ClientDAO.gamesListener() {
             @Override
@@ -65,7 +71,7 @@ public class ViewGamesActivity extends AppCompatActivity {
     }
 
     public void startAdap() {
-        ListAdapter adapter = new GameAdapter(this, gamelist, token);
+        ListAdapter adapter = new GameAdapter(this, gamelist, user);
         gamesview = findViewById(R.id.listGames);
         gamesview.setAdapter(adapter);
         gamesview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

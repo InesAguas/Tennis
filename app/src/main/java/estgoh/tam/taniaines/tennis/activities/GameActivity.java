@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Date;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.classes.User;
 import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.others.GameDBAdapter;
 import estgoh.tam.taniaines.tennis.R;
@@ -33,7 +34,7 @@ public class GameActivity extends AppCompatActivity{
     private int[] score2 = {0, 0, 0};
 
     private Game game;
-    private String token;
+    private User user;
 
     private SharedPreferences sharedPreferences;
     GameDBAdapter gAdapter;
@@ -46,6 +47,8 @@ public class GameActivity extends AppCompatActivity{
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
+        user = (User)b.getSerializable("user");
+        api = new RESTClientDAO(user, this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -53,7 +56,7 @@ public class GameActivity extends AppCompatActivity{
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
         gAdapter = new GameDBAdapter(this);
-        api = new RESTClientDAO();
+
 
         tournament = findViewById(R.id.tourName);
         player1 = findViewById(R.id.p1Name);
@@ -80,7 +83,6 @@ public class GameActivity extends AppCompatActivity{
         name_player2.setText(b.getString("player2"));
 
         num_set = 1;
-        token = sharedPreferences.getString("token", "");
         startGame();
 
         //listener for the score button of player 1
@@ -233,7 +235,7 @@ public class GameActivity extends AppCompatActivity{
         game.setScore2(score2);
         game.setStage(0);
 
-        api.updateGame(token, game.getId(), game, new ClientDAO.updateGameListener() {
+        api.updateGame(user.getToken(), game.getId(), game, new ClientDAO.updateGameListener() {
             @Override
             public void onSuccess(String message) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(GameActivity.this, R.style.CustomMaterialDialog);
@@ -270,7 +272,7 @@ public class GameActivity extends AppCompatActivity{
         int[] sc1 = {0,0,0};
         int[] sc2 = {0,0,0};
         game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2, new Date());
-        api.addGame(token, game, new ClientDAO.addGameListener() {
+        api.addGame(user.getToken(), game, new ClientDAO.addGameListener() {
             @Override
             public void onSuccess(int id) {
                 game.setId(id);
@@ -288,7 +290,7 @@ public class GameActivity extends AppCompatActivity{
         game.setScore1(score1);
         game.setScore2(score2);
         game.setStage(game.getStage() + 1);
-        api.updateGame(token, game.getId(), game, new ClientDAO.updateGameListener() {
+        api.updateGame(user.getToken(), game.getId(), game, new ClientDAO.updateGameListener() {
             @Override
             public void onSuccess(String message) {
                 //nao faz nada...
@@ -345,7 +347,7 @@ public class GameActivity extends AppCompatActivity{
         alertEnd.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
+                api.deleteGame(user.getToken(), game.getId(), new ClientDAO.deleteGameListener() {
                     @Override
                     public void onSuccess(String message) {
                         //apagou o jogo

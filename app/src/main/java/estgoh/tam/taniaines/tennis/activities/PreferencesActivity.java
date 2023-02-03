@@ -3,6 +3,9 @@ package estgoh.tam.taniaines.tennis.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,7 +21,7 @@ public class PreferencesActivity extends AppCompatActivity {
     public static final String USERNAME = "username";
     private SharedPreferences sharedPreferences;
     private TextView username;
-    private Button saveUsername;
+    private Button saveUsername, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class PreferencesActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
         username = findViewById(R.id.username);
         saveUsername = findViewById(R.id.buttonSave);
+        logout = findViewById(R.id.buttonLogout);
 
 
         if (sharedPreferences != null) {
@@ -54,6 +58,35 @@ public class PreferencesActivity extends AppCompatActivity {
                 editor.commit();
                 Toast.makeText(PreferencesActivity.this,"Saved",Toast.LENGTH_SHORT).show();
                 finish();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PreferencesActivity.this);
+                builder.setMessage("Are you sure you want to logout?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.remove("username");
+                                editor.remove("password");
+                                editor.remove("token");
+                                editor.commit();
+
+                                Intent login = new Intent(PreferencesActivity.this, LoginActivity.class);
+                                startActivity(login);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
     }

@@ -19,19 +19,21 @@
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="username"
+        android:text="Username"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/editUsername"
-        app:layout_constraintEnd_toStartOf="@+id/editUsername" />
+        app:layout_constraintEnd_toStartOf="@+id/editUsername"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="password"
+        android:text="Password"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/editPassword"
-        app:layout_constraintEnd_toStartOf="@+id/editPassword" />
+        app:layout_constraintEnd_toStartOf="@+id/editPassword"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/loginButton"
@@ -41,8 +43,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/newAccButton"
         app:layout_constraintEnd_toEndOf="@+id/editPassword"
+        app:layout_constraintHorizontal_bias="0.271"
         app:layout_constraintStart_toEndOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/editPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editPassword"
+        app:layout_constraintVertical_bias="0.504" />
 
     <EditText
         android:id="@+id/editUsername"
@@ -52,8 +56,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="username"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4"
+        android:hint="Username"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
@@ -76,6 +80,7 @@
         android:ems="10"
         android:inputType="textPassword"
         android:minHeight="48dp"
+        android:hint="Password"
         app:layout_constraintEnd_toEndOf="@+id/editUsername"
         app:layout_constraintStart_toStartOf="@+id/editUsername"
         app:layout_constraintTop_toBottomOf="@+id/editUsername"

@@ -8,13 +8,24 @@
 
     <Button
         android:id="@+id/buttonSave"
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="208dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="96dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.848"
+        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="206dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="32dp"
+        android:text="Logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.819"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView

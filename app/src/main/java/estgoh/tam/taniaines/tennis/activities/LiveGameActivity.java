@@ -1,11 +1,16 @@
 package estgoh.tam.taniaines.tennis.activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +41,11 @@ public class LiveGameActivity extends AppCompatActivity {
         Bundle b = i.getExtras();
 
         game = (Game)b.getSerializable("game");
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Live Game - " + game.getTournament());
+
         tournament = findViewById(R.id.tournamentLive); //ok
         set = findViewById(R.id.setLive);
         p1 = findViewById(R.id.p1Live); //ok
@@ -54,12 +64,16 @@ public class LiveGameActivity extends AppCompatActivity {
 
         tournament.setText(game.getTournament());
         set.setText("Set " + game.currentSet());
+
         p1.setText(game.getPlayer1());
         pl1.setText(game.getPlayer1());
         p2.setText(game.getPlayer2());
         pl2.setText(game.getPlayer2());
         sc1.setText(game.getPoints1());
         sc2.setText(game.getPoints2());
+
+        int set = game.currentSet() - 1;
+        setscore.setText(game.getSetScore1(set) + " - " + game.getSetScore2(set));
 
         p1s1.setText(game.getSetScore1(0) + "");
         p1s2.setText(game.getSetScore1(1) + "");
@@ -105,6 +119,9 @@ public class LiveGameActivity extends AppCompatActivity {
     private void updateScores() {
         set.setText("Set " + game.currentSet());
 
+        int set = game.currentSet() - 1;
+        setscore.setText(game.getSetScore1(set) + " - " + game.getSetScore2(set));
+
         p1s1.setText(game.getSetScore1(0) + "");
         p1s2.setText(game.getSetScore1(1) + "");
         p1s3.setText(game.getSetScore1(2) + "");
@@ -117,4 +134,39 @@ public class LiveGameActivity extends AppCompatActivity {
         sc2.setText(game.getPoints2());
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        outState.putSerializable("game", game);
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        game = (Game)savedInstanceState.getSerializable("game");
+        sc1.setText(game.getPoints1());
+        sc2.setText(game.getPoints2());
+        set.setText("Set " + game.currentSet());
+
+        int set = game.currentSet() - 1;
+        setscore.setText(game.getSetScore1(set) + " - " + game.getSetScore2(set));
+
+        p1s1.setText(game.getSetScore1(0) + "");
+        p1s2.setText(game.getSetScore1(1) + "");
+        p1s3.setText(game.getSetScore1(2) + "");
+
+        p2s1.setText(game.getSetScore2(0) + "");
+        p2s2.setText(game.getSetScore2(1) + "");
+        p2s3.setText(game.getSetScore2(2) + "");
+    }
 }

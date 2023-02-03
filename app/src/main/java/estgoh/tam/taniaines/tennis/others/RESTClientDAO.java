@@ -243,4 +243,32 @@ public class RESTClientDAO implements ClientDAO{
             }
         });
     }
+
+    @Override
+    public void editGame(String token, int id, Game game, editGameListener listener) {
+        Call<Void> call = api.editGame(token, id, game);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                switch(response.code()) {
+                    case 200:
+                        listener.onSuccess("Game edited");
+                        break;
+                    case 403:
+                        listener.onError("No permission");
+                        break;
+                    case 500:
+                        listener.onError("Server Error");
+                        break;
+                    default:
+                        listener.onError("Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                listener.onError("Call Error");
+            }
+        });
+    }
 }

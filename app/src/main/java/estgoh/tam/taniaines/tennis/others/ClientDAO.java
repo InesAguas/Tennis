@@ -5,6 +5,11 @@ import java.util.List;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
 import estgoh.tam.taniaines.tennis.classes.User;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Header;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface ClientDAO {
 
@@ -50,4 +55,11 @@ public interface ClientDAO {
         public void onError(String message);
     }
     public void getUpdates(String token, int id, int stage, getUpdatesListener listener);
+
+    public interface editGameListener {
+        public void onSuccess(String message);
+        public void onError(String message);
+    }
+    public void editGame(String token, int id, Game game, editGameListener listener);
+
 }

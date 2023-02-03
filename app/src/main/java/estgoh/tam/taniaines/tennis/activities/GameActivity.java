@@ -78,7 +78,23 @@ public class GameActivity extends AppCompatActivity{
         name_player2.setText(b.getString("player2"));
 
         num_set = 1;
-        startGame();
+
+        int[] sc1 = {0,0,0};
+        int[] sc2 = {0,0,0};
+        game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2, new Date());
+        api.addGame(token, game, new ClientDAO.addGameListener() {
+            @Override
+            public void onSuccess(int id) {
+                game.setId(id);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
 
         //listener for the score button of player 1
         btn_player1.setOnClickListener(new View.OnClickListener() {
@@ -263,24 +279,6 @@ public class GameActivity extends AppCompatActivity{
         });
     }
 
-    private void startGame() {
-        int[] sc1 = {0,0,0};
-        int[] sc2 = {0,0,0};
-        game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2, new Date());
-        api.addGame(token, game, new ClientDAO.addGameListener() {
-            @Override
-            public void onSuccess(int id) {
-                game.setId(id);
-            }
-
-            @Override
-            public void onError(String message) {
-                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
-    }
-
     private void update() {
         game.setScore1(score1);
         game.setScore2(score2);
@@ -360,7 +358,6 @@ public class GameActivity extends AppCompatActivity{
         alertEnd.show();
     }
 
-
     //function for menu items and return button
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -368,15 +365,14 @@ public class GameActivity extends AppCompatActivity{
                 api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
                     @Override
                     public void onSuccess(String message) {
-                        //
+                        finish();
                     }
 
                     @Override
                     public void onError(String message) {
-                        //
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT);
                     }
                 });
-                finish();
                 return true;
             case R.id.games_button:
                 Intent iViewGames = new Intent(this, ViewGamesActivity.class);
@@ -384,9 +380,7 @@ public class GameActivity extends AppCompatActivity{
                 return true;
             case R.id.edit_button:
                 Intent iEditGame = new Intent(this, EditActivity.class);
-                iEditGame.putExtra("player1", name_player1.getText().toString());
-                iEditGame.putExtra("player2", name_player2.getText().toString());
-                iEditGame.putExtra("tournament", tournament.getText().toString());
+                iEditGame.putExtra("game", game);
                 startActivityForResult(iEditGame, 1);
                 return true;
             default:
@@ -399,25 +393,18 @@ public class GameActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1) {
             Bundle bundle = data.getExtras();
-            tournament.setText(bundle.getString("tournament"));
-            name_player1.setText(bundle.getString("player1"));
-            name_player2.setText(bundle.getString("player2"));
-            player1.setText(bundle.getString("player1"));
-            player2.setText(bundle.getString("player2"));
+            game = (Game)bundle.getSerializable("game");
+            tournament.setText(game.getTournament());
+            name_player1.setText(game.getPlayer1());
+            name_player2.setText(game.getPlayer2());
+            player1.setText(game.getPlayer1());
+            player2.setText(game.getPlayer2());
         }
     }
 
-
     //function to save application state
     public void onSaveInstanceState(Bundle outState){
-        outState.putCharSequence("tournament", tournament.getText());
-        outState.putCharSequence("player1", player1.getText());
-        outState.putCharSequence("player2", player2.getText());
-        outState.putIntArray("score1", score1);
-        outState.putIntArray("score2", score2);
-        outState.putCharSequence("pt_player1", pt_player1.getText());
-        outState.putCharSequence("pt_player2",pt_player2.getText());
-        outState.putInt("num_set", num_set);
+        outState.putSerializable("game", game);
         super.onSaveInstanceState(outState);
     }
 
@@ -425,14 +412,15 @@ public class GameActivity extends AppCompatActivity{
     public void onRestoreInstanceState(Bundle outState){
         super.onRestoreInstanceState(outState);
 
-        tournament.setText(outState.getCharSequence("tournament"));
-        player1.setText(outState.getCharSequence("player1"));
-        name_player1.setText(outState.getCharSequence("player1"));
-        player2.setText(outState.getCharSequence("player2"));
-        name_player2.setText(outState.getCharSequence("player2"));
+        game = (Game)outState.getSerializable("game");
+        tournament.setText(game.getTournament());
+        player1.setText(game.getPlayer1());
+        name_player1.setText(game.getPlayer1());
+        player2.setText(game.getPlayer2());
+        name_player2.setText(game.getPlayer2());
 
-        score1 = outState.getIntArray("score1");
-        score2 = outState.getIntArray("score2");
+        score1 = game.getScore1();
+        score2 = game.getScore2();
 
         set1_p1.setText(score1[0] + "");
         set2_p1.setText(score1[1] + "");
@@ -441,10 +429,10 @@ public class GameActivity extends AppCompatActivity{
         set2_p2.setText(score2[1] + "");
         set3_p2.setText(score2[2] + "");
 
-        pt_player1.setText(outState.getCharSequence("pt_player1"));
-        pt_player2.setText(outState.getCharSequence("pt_player2"));
+        pt_player1.setText(game.getPoints1());
+        pt_player2.setText(game.getPoints2());
 
-        num_set = outState.getInt("num_set");
+        num_set = game.currentSet();
         setNum.setText("Set " + num_set);
     }
 }

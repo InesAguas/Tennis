@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 @Override
                 public void onError(String message) {
-                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    Intent iLogin = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivity(iLogin);
                 }
             });
         } else {

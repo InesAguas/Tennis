@@ -2,6 +2,7 @@ package estgoh.tam.taniaines.tennis.others;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -40,7 +41,7 @@ public class TokenAuthenticator implements Authenticator {
 
             @Override
             public void onError(String message) {
-                //cenas...
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -18,9 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Date;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
-import estgoh.tam.taniaines.tennis.classes.User;
 import estgoh.tam.taniaines.tennis.others.ClientDAO;
-import estgoh.tam.taniaines.tennis.others.GameDBAdapter;
 import estgoh.tam.taniaines.tennis.R;
 import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 
@@ -37,7 +35,6 @@ public class GameActivity extends AppCompatActivity{
 
     private SharedPreferences sharedPreferences;
     private String token;
-    GameDBAdapter gAdapter;
     ClientDAO api;
 
     @Override
@@ -55,7 +52,6 @@ public class GameActivity extends AppCompatActivity{
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
-        gAdapter = new GameDBAdapter(this);
 
         tournament = findViewById(R.id.tourName);
         player1 = findViewById(R.id.p1Name);
@@ -349,12 +345,12 @@ public class GameActivity extends AppCompatActivity{
                 api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
                     @Override
                     public void onSuccess(String message) {
-                        //apagou o jogo
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(String message) {
-                        //nao apagou...
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
                     }
                 });
                 finish();
@@ -369,6 +365,17 @@ public class GameActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
+                    @Override
+                    public void onSuccess(String message) {
+                        //
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        //
+                    }
+                });
                 finish();
                 return true;
             case R.id.games_button:

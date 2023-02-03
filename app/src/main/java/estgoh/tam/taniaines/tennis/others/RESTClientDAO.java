@@ -101,7 +101,6 @@ public class RESTClientDAO implements ClientDAO{
         });
     }
 
-
     @Override
     public void addGame(String token, Game game, addGameListener listener) {
         Call<Game> call = api.addGame(token,game);
@@ -146,9 +145,6 @@ public class RESTClientDAO implements ClientDAO{
                         }
                         listener.onSuccess(games);
                         break;
-                    case 400:
-                        listener.onError("Parameters missing");
-                        break;
                     case 500:
                         listener.onError("Server Error");
                         break;
@@ -174,6 +170,9 @@ public class RESTClientDAO implements ClientDAO{
                     case 200:
                         listener.onSuccess("Game deleted");
                         break;
+                    case 403:
+                        listener.onError("No permission to delete");
+                        break;
                     case 500:
                         listener.onError("Server Error");
                         break;
@@ -198,6 +197,9 @@ public class RESTClientDAO implements ClientDAO{
                 switch(response.code()) {
                     case 200:
                         listener.onSuccess("Game updated");
+                        break;
+                    case 403:
+                        listener.onError("No permission to update.");
                         break;
                     case 500:
                         listener.onError("Server Error");
@@ -237,7 +239,7 @@ public class RESTClientDAO implements ClientDAO{
 
             @Override
             public void onFailure(Call<Game> call, Throwable t) {
-
+                listener.onError("Call error");
             }
         });
     }

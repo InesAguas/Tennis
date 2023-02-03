@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,11 +13,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import estgoh.tam.taniaines.tennis.R;
+import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.others.ClientDAO;
+import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 
 public class EditActivity extends AppCompatActivity {
 
     private EditText editTournament, editPlayer1, editPlayer2;
     Button save_btn;
+    private ClientDAO api;
+    private SharedPreferences sharedPreferences;
+    private String token;
+    private Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +33,11 @@ public class EditActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
+        game = (Game)b.getSerializable("game");
+
+        api = new RESTClientDAO(this);
+        sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -35,9 +48,9 @@ public class EditActivity extends AppCompatActivity {
         editPlayer2 = findViewById(R.id.editPlayer2);
         save_btn = findViewById(R.id.save_button);
 
-        editTournament.setText(b.getString("tournament"));
-        editPlayer1.setText(b.getString("player1"));
-        editPlayer2.setText(b.getString("player2"));
+        editTournament.setText(game.getTournament());
+        editPlayer1.setText(game.getPlayer1());
+        editPlayer2.setText(game.getPlayer2());
 
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,12 +66,23 @@ public class EditActivity extends AppCompatActivity {
         if(editTournament.getText().toString().matches("") || editPlayer1.getText().toString().matches("") || editPlayer2.getText().toString().matches("")){
             Toast.makeText(this, "Fields can't be empty", Toast.LENGTH_SHORT).show();
         }else{
-            Intent intent = new Intent();
-            intent.putExtra("tournament", editTournament.getText().toString());
-            intent.putExtra("player1", editPlayer1.getText().toString());
-            intent.putExtra("player2", editPlayer2.getText().toString());
-            setResult(1,intent);
-            finish();
+            game.setPlayer1(editPlayer1.getText().toString());
+            game.setPlayer2(editPlayer2.getText().toString());
+            game.setTournament(editTournament.getText().toString());
+            api.editGame(token, game.getId(), game, new ClientDAO.editGameListener() {
+                @Override
+                public void onSuccess(String message) {
+                    Intent intent = new Intent();
+                    intent.putExtra("game", game);
+                    setResult(1,intent);
+                    finish();
+                }
+
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT);
+                }
+            });
         }
     }
 

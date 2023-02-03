@@ -32,11 +32,15 @@ public interface APIClient {
     @POST("/user/register")
     Call<User> createAccount(@Body User user);
 
+
     @POST("/games/add")
     Call<Game> addGame(@Header ("token") String token, @Body Game game);
 
     @GET("/games/all")
     Call<List<Game>> viewGames(@Header ("token") String token);
+
+    @PUT("/games/{id}/edit")
+    Call<Void> editGame(@Header("token") String token, @Path("id") int id, @Body Game game);
 
     @DELETE("/games/{id}/delete")
     Call<Void> deleteGame(@Header("token") String token, @Path("id") int id);

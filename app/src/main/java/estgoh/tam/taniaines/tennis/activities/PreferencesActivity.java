@@ -16,12 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import estgoh.tam.taniaines.tennis.R;
+import estgoh.tam.taniaines.tennis.classes.User;
+import estgoh.tam.taniaines.tennis.others.APIClient;
+import estgoh.tam.taniaines.tennis.others.ClientDAO;
+import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 
 public class PreferencesActivity extends AppCompatActivity {
     public static final String USERNAME = "username";
     private SharedPreferences sharedPreferences;
     private TextView username;
     private Button saveUsername, logout;
+    ClientDAO api;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +38,10 @@ public class PreferencesActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Settings");
 
+        api = new RESTClientDAO(this);
+
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");
         username = findViewById(R.id.username);
         saveUsername = findViewById(R.id.buttonSave);
         logout = findViewById(R.id.buttonLogout);
@@ -48,16 +57,26 @@ public class PreferencesActivity extends AppCompatActivity {
         saveUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user  = username.getText().toString();
-                if(TextUtils.isEmpty(user) || user.equals(" ")){
+                String str  = username.getText().toString();
+                if(str.isEmpty() || str.equals(" ") || str == null){
                     username.setError("Please fill out this field!");
                     return;
                 }
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(USERNAME, user);
-                editor.commit();
-                Toast.makeText(PreferencesActivity.this,"Saved",Toast.LENGTH_SHORT).show();
-                finish();
+                User user = new User(str);
+                api.editUser(token, user, new ClientDAO.userEditListener() {
+                    @Override
+                    public void onSuccess(String message) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(USERNAME, str);
+                        editor.commit();
+                        Toast.makeText(PreferencesActivity.this,"Saved",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(PreferencesActivity.this, message, Toast.LENGTH_SHORT);
+                    }
+                });
             }
         });
 

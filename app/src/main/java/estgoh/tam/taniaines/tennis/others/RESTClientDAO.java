@@ -82,8 +82,8 @@ public class RESTClientDAO implements ClientDAO{
                     case 200:
                         listener.onSuccess("Account created successfully");
                         break;
-                    case 400:
-                        listener.onError("User already exists");
+                    case 403:
+                        listener.onError("Username already exists");
                         break;
                     case 500:
                         listener.onError("Server Error");
@@ -98,6 +98,34 @@ public class RESTClientDAO implements ClientDAO{
                 listener.onError("Error creating account");
             }
 
+        });
+    }
+
+    @Override
+    public void editUser(String token, User user, userEditListener listener) {
+        Call<Void> call = api.editUser(token, user);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                switch(response.code()) {
+                    case 200:
+                        listener.onSuccess("Username changed");
+                        break;
+                    case 403:
+                        listener.onError("Username already exists");
+                        break;
+                    case 500:
+                        listener.onError("Server Error");
+                        break;
+                    default:
+                        listener.onError("Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                listener.onError("Call Error");
+            }
         });
     }
 

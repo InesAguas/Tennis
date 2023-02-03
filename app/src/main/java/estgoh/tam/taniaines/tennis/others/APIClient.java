@@ -32,6 +32,8 @@ public interface APIClient {
     @POST("/user/register")
     Call<User> createAccount(@Body User user);
 
+    @PUT("/user/edit")
+    Call<Void> editUser(@Header("token") String token, @Body User user);
 
     @POST("/games/add")
     Call<Game> addGame(@Header ("token") String token, @Body Game game);

@@ -23,8 +23,13 @@ public interface ClientDAO {
         public void onSuccess(String message);
         public void onError(String message);
     }
-
     public void createAccount(User user, createAccountListener listener);
+
+    public interface userEditListener {
+        public void onSuccess(String message);
+        public void onError(String message);
+    }
+    public void editUser(String token, User user, userEditListener listener);
 
     public interface addGameListener {
         public void onSuccess(int id);

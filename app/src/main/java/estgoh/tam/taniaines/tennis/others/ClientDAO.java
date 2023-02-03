@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.classes.User;
 
 public interface ClientDAO {
 
@@ -11,14 +12,14 @@ public interface ClientDAO {
         public void onSuccess(String token);
         public void onError(String message);
     }
-    public void login(HashMap<String, String> params, loginListener listener);
+    public void login(User user, loginListener listener);
 
     public interface createAccountListener {
         public void onSuccess(String message);
         public void onError(String message);
     }
 
-    public void createAccount(HashMap<String, String> params, createAccountListener listener);
+    public void createAccount(User user, createAccountListener listener);
 
     public interface addGameListener {
         public void onSuccess(int id);

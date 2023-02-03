@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Date;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.classes.User;
 import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.others.GameDBAdapter;
 import estgoh.tam.taniaines.tennis.R;
@@ -33,9 +34,9 @@ public class GameActivity extends AppCompatActivity{
     private int[] score2 = {0, 0, 0};
 
     private Game game;
-    private String token;
 
     private SharedPreferences sharedPreferences;
+    private String token;
     GameDBAdapter gAdapter;
     ClientDAO api;
 
@@ -46,14 +47,15 @@ public class GameActivity extends AppCompatActivity{
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
+        api = new RESTClientDAO(this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Live Game");
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");
         gAdapter = new GameDBAdapter(this);
-        api = new RESTClientDAO();
 
         tournament = findViewById(R.id.tourName);
         player1 = findViewById(R.id.p1Name);
@@ -80,7 +82,6 @@ public class GameActivity extends AppCompatActivity{
         name_player2.setText(b.getString("player2"));
 
         num_set = 1;
-        token = sharedPreferences.getString("token", "");
         startGame();
 
         //listener for the score button of player 1
@@ -297,7 +298,7 @@ public class GameActivity extends AppCompatActivity{
             @Override
             public void onError(String message) {
                 Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                finish();
+                //finish();
             }
         });
     }

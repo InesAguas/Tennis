@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.classes.User;
 import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.others.GameAdapter;
 import estgoh.tam.taniaines.tennis.others.GameDBAdapter;
@@ -41,12 +42,15 @@ public class ViewGamesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_games);
 
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Games");
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
-        api = new RESTClientDAO();
+        api = new RESTClientDAO(this);
         token = sharedPreferences.getString("token", "");
         api.viewGames(token, new ClientDAO.gamesListener() {
             @Override

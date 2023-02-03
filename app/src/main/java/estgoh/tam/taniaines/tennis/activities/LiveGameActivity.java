@@ -15,6 +15,7 @@ import java.util.TimerTask;
 
 import estgoh.tam.taniaines.tennis.R;
 import estgoh.tam.taniaines.tennis.classes.Game;
+import estgoh.tam.taniaines.tennis.classes.User;
 import estgoh.tam.taniaines.tennis.others.ClientDAO;
 import estgoh.tam.taniaines.tennis.others.RESTClientDAO;
 
@@ -69,7 +70,7 @@ public class LiveGameActivity extends AppCompatActivity {
         p2s3.setText(game.getSetScore2(2) + "");
 
         //sc1 e sc2... meter na BD
-        api = new RESTClientDAO();
+        api = new RESTClientDAO(this);
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
 
         handler = new Handler();

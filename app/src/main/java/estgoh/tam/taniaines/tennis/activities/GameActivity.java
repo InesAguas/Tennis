@@ -34,9 +34,9 @@ public class GameActivity extends AppCompatActivity{
     private int[] score2 = {0, 0, 0};
 
     private Game game;
-    private User user;
 
     private SharedPreferences sharedPreferences;
+    private String token;
     GameDBAdapter gAdapter;
     ClientDAO api;
 
@@ -47,16 +47,15 @@ public class GameActivity extends AppCompatActivity{
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
-        user = (User)b.getSerializable("user");
-        api = new RESTClientDAO(user, this);
+        api = new RESTClientDAO(this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Live Game");
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");
         gAdapter = new GameDBAdapter(this);
-
 
         tournament = findViewById(R.id.tourName);
         player1 = findViewById(R.id.p1Name);
@@ -235,7 +234,7 @@ public class GameActivity extends AppCompatActivity{
         game.setScore2(score2);
         game.setStage(0);
 
-        api.updateGame(user.getToken(), game.getId(), game, new ClientDAO.updateGameListener() {
+        api.updateGame(token, game.getId(), game, new ClientDAO.updateGameListener() {
             @Override
             public void onSuccess(String message) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(GameActivity.this, R.style.CustomMaterialDialog);
@@ -272,7 +271,7 @@ public class GameActivity extends AppCompatActivity{
         int[] sc1 = {0,0,0};
         int[] sc2 = {0,0,0};
         game = new Game(tournament.getText().toString(), player1.getText().toString(), player2.getText().toString(), sc1, sc2, new Date());
-        api.addGame(user.getToken(), game, new ClientDAO.addGameListener() {
+        api.addGame(token, game, new ClientDAO.addGameListener() {
             @Override
             public void onSuccess(int id) {
                 game.setId(id);
@@ -290,7 +289,7 @@ public class GameActivity extends AppCompatActivity{
         game.setScore1(score1);
         game.setScore2(score2);
         game.setStage(game.getStage() + 1);
-        api.updateGame(user.getToken(), game.getId(), game, new ClientDAO.updateGameListener() {
+        api.updateGame(token, game.getId(), game, new ClientDAO.updateGameListener() {
             @Override
             public void onSuccess(String message) {
                 //nao faz nada...
@@ -299,7 +298,7 @@ public class GameActivity extends AppCompatActivity{
             @Override
             public void onError(String message) {
                 Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                finish();
+                //finish();
             }
         });
     }
@@ -347,7 +346,7 @@ public class GameActivity extends AppCompatActivity{
         alertEnd.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                api.deleteGame(user.getToken(), game.getId(), new ClientDAO.deleteGameListener() {
+                api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
                     @Override
                     public void onSuccess(String message) {
                         //apagou o jogo

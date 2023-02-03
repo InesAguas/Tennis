@@ -15,22 +15,25 @@ import okhttp3.Route;
 
 public class TokenAuthenticator implements Authenticator {
 
-    private User user;
     private Context context;
+    private ClientDAO api;
+    private SharedPreferences sharedPreferences;
 
-    public TokenAuthenticator(User user, Context context) {
-        this.user = user;
+    public TokenAuthenticator(Context context, RESTClientDAO api) {
         this.context = context;
+        this.api = api;
     }
 
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
-        ClientDAO api = new RESTClientDAO(user, context);
+        sharedPreferences = context.getSharedPreferences("SharedPref",context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+        String pass = sharedPreferences.getString("password", "");
+        User user = new User(username, pass);
         api.login(user, new ClientDAO.loginListener() {
             @Override
             public void onSuccess(String token) {
-                user.setToken(token);
-                SharedPreferences.Editor editor = context.getSharedPreferences("SharedPref",context.MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("token", token);
                 editor.commit();
             }
@@ -42,7 +45,7 @@ public class TokenAuthenticator implements Authenticator {
         });
 
         return response.request().newBuilder()
-                .header("token", user.getToken())
+                .header("token", sharedPreferences.getString("token", ""))
                 .build();
     }
 }

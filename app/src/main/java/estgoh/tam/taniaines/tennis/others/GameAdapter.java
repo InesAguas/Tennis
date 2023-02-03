@@ -27,14 +27,13 @@ public class GameAdapter extends BaseAdapter {
 
     private Context context;
     private List<Game> adaptGames;
-
-    private User user;
+    private String token;
     ClientDAO api;
 
-    public GameAdapter(Context context, List<Game> games, User user) {
+    public GameAdapter(Context context, List<Game> games, String token) {
         this.context = context;
         this.adaptGames = games;
-        this.user = user;
+        this.token = token;
     }
 
     @Override
@@ -162,9 +161,9 @@ public class GameAdapter extends BaseAdapter {
         deleteGameDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                api = new RESTClientDAO(user, context);
+                api = new RESTClientDAO(context);
                 Game game = adaptGames.get(position);
-                api.deleteGame(user.getToken(), game.getId(), new ClientDAO.deleteGameListener() {
+                api.deleteGame(token, game.getId(), new ClientDAO.deleteGameListener() {
                     @Override
                     public void onSuccess(String message) {
                         Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();

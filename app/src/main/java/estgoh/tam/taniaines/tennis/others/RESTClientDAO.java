@@ -21,15 +21,13 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RESTClientDAO implements ClientDAO{
 
-    private User user;
     private Context context;
     APIClient api;
     TokenAuthenticator testes;
 
-    public RESTClientDAO(User user, Context context){
-        this.user = user;
+    public RESTClientDAO(Context context){
         this.context = context;
-        testes = new TokenAuthenticator(user, context);
+        testes = new TokenAuthenticator(context, this);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.authenticator(testes);

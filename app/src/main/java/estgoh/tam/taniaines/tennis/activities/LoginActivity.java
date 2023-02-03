@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username, password;
     private SharedPreferences sharedPreferences;
     ClientDAO api;
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
-        user = (User)b.getSerializable("user");
 
         login = findViewById(R.id.loginButton);
         createAcc = findViewById(R.id.newAccButton);
@@ -41,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("SharedPref",MODE_PRIVATE);
 
-        api = new RESTClientDAO(user, this);
+        api = new RESTClientDAO(this);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

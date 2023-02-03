@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        api = new RESTClientDAO(user, this);
+        api = new RESTClientDAO(this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Tennis Scores");
@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", token);
                     editor.commit();
-                    user.setToken(token);
                     Toast.makeText(getBaseContext(), "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
                 }
                 @Override
@@ -74,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         } else {
             Intent iLogin = new Intent(this, LoginActivity.class);
-            iLogin.putExtra("user", user);
             startActivity(iLogin);
         }
 
@@ -94,14 +92,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     iStart.putExtra("player1", player1.getText().toString());
                     iStart.putExtra("player2", player2.getText().toString());
                     iStart.putExtra("tournament", tournament.getText().toString());
-                    iStart.putExtra("user", user);
                     startActivity(iStart);
                 }
                 break;
             case R.id.buttonViewGames:
                 //when the view games button is pressed, starts activity
                 Intent iViewGames = new Intent(this, ViewGamesActivity.class);
-                iViewGames.putExtra("user", user);
                 startActivity(iViewGames);
                 break;
         }
